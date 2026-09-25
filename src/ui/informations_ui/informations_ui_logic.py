@@ -1,9 +1,10 @@
 """
-子页面：信息 的UI逻辑文件, 
+子页面信息的UI逻辑文件, 
 引用时可作 InfoUILogic / information_ui_logic
 """
 
 from PySide2.QtCore import Qt
+
 from ui.informations_ui.informations_ui import ShowInfobar, InformationUI
 from ui.docs_reader_ui.docs_reader_ui_logic import DocsRUILogic
 
@@ -19,9 +20,9 @@ class InformationUILogic(InformationUI):
         self.docs_reader_ui = None
 
         # 初始化信号连接函数
-        self.singal_connection()
+        self.signal_connection()
 
-    def singal_connection(self):
+    def signal_connection(self):
         """信号连接函数"""
 
         # 连接 支持 部分帮助文档按钮点击信号

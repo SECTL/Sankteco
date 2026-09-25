@@ -52,10 +52,9 @@ class PrayUIString:
     PRAY_RESULT_LIST_DEFAULT = _("别紧张")
 
     # 点名快捷设置 部分
-    START_PRAY_BUTTON_TEXT = _("祈福")
+    PRAY_BUTTON_TEXT = _("祈福")
     PRAY_NAMELIST_CHOOSE_LIST_DEFAULT = _("请选择名单")
-    PRAY_ALGORITHM_LIST_DEFAULT_1 = _("Python原生随机算法")
-    PRAY_ALGORITHM_LIST_DEFAULT_2 = _("SecRandom算法")
+    PRAY_ALGORITHM_LIST_DEFAULT = _("默认公平随机算法")
     PRAY_NUMBER_SUBTRACT_BUTTON_TEXT = "-"
     PRAY_NUMBER_PLUS_BUTTON_TEXT = "+"
     PRAY_SEX_LIST_ALL = _("所有性别")
@@ -65,11 +64,6 @@ class PrayUIString:
     PRAY_GROUP_LIST_DEFAULT = _("请选择组别")
     PRAY_TAG_LIST_DEFAULT = _("请选择标签")
     PRAY_RESET_SETTING_BUTTON_TEXT = _("重置抽选")
-
-    # 祈福时实时状态显示 部分
-    NAMELIST_TOTAL_NUMBER_LABEL_TEXT = _("总数: ")
-    SURPLUS_NOW_NUMBER_LABEL_TEXT = _("剩余: ")
-    NONE_LABEL_TEXT = _("占位符")
 
 
 class InfoUIString:

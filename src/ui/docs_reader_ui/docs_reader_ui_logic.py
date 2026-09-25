@@ -15,12 +15,12 @@ class DocsRUILogic(DocsRUI):
         from PySide2.QtCore import QTimer
 
         # 初始化信号连接
-        self.singal_connection()
+        self.signal_connection()
 
         # 延迟加载，确保所有控件就绪
         QTimer.singleShot(200, self.load_first_doc)  # type: ignore
 
-    def singal_connection(self):
+    def signal_connection(self):
         """信号连接函数"""
 
         now_doc_list = self.docs_combobox.now_doc_card_list

@@ -18,14 +18,7 @@ from PySide2.QtCore import Signal, QObject
 import qfluentwidgets as qfw
 from qfluentwidgets import FluentIcon as FI
 
-from app_const_var import AssetsPathTXT
 from ui.ui_str import SettNLUIString
-from app_config import AppConfig
-
-
-# 加载配置文件
-sett_nl_ui_cfg = AppConfig()
-qfw.qconfig.load(AssetsPathTXT.APP_CONFIG, sett_nl_ui_cfg)
 
 
 class NLSignals(QObject):

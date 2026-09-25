@@ -74,7 +74,7 @@ class SettWindow(FluentWindow):
         # 名单管理
         self.addSubInterface(
             self.namelists_ui,
-            FI.BRIGHTNESS,
+            FI.PEOPLE,
             SettWindowString.NAMELISTS_UI_NAVNAME,
             NavigationItemPosition.TOP,
         )

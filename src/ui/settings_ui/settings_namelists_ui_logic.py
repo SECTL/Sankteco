@@ -3,18 +3,16 @@
 引用时可作 SettNLUILogic / settings_namelists_ui_logic
 """
 
-from pathlib import Path
-
 import tablib
 from PySide2.QtWidgets import QFileDialog
 
 from ui.settings_ui.settings_namelists_ui import (
     AskNewNamelistID,
     SettNLUI,
-    sett_nl_ui_cfg,
     nlsignals,
 )
 from logic.add_import_export_namelist import AIENamelist
+from logic.namelist_registry import namelist_registry
 from ui.ui_str import SettNLUIString
 from app_const_var import LogicFilesString, AssetsPathTXT
 
@@ -26,31 +24,28 @@ class SettNLUILogic(SettNLUI):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self.cfg = sett_nl_ui_cfg
-
         # 初始化信号连接函数
-        self.singal_connection()
+        self.signal_connection()
 
         # 初始化读取名单列表
         self.load_namelists_list()
 
     def load_namelists_list(self):
-        ui = self.now_namelist_card
+        """导入名单并设置列表"""
 
-        # 匹配 Sankteco 名单文件
-        namelist_folder_path = Path(AssetsPathTXT.APP_NAMELISTS_FOLDER).glob("*.json")
-        namelist_names_list = [p.name for p in namelist_folder_path]
+        ui = self.now_namelist_card
+        namelists = namelist_registry.scan()
 
         # 添加名单列表到下拉框
-        for i in namelist_names_list:
-            ui.now_namelist_card_list_item.append(i)
-        ui.now_namelist_card_list.addItems(ui.now_namelist_card_list_item)
+        ui.now_namelist_card_list_item = list(namelists)
+        ui.now_namelist_card_list.clear()
+        ui.now_namelist_card_list.addItems(namelists)
 
         # 默认选中第一项 (如果存在), 会触发 currentIndexChanged 信号 -> 自动加载
         if ui.now_namelist_card_list.count() > 0:
             ui.now_namelist_card_list.setCurrentIndex(0)
 
-    def singal_connection(self):
+    def signal_connection(self):
         """信号连接函数"""
 
         now_namelist_card_list = self.now_namelist_card.now_namelist_card_list
@@ -74,6 +69,22 @@ class SettNLUILogic(SettNLUI):
         # 导出名单
         nlsignals.export_namelist.connect(self.export_namelist)
 
+        # 下拉框选择变化 → 通知注册表
+        now_namelist_card_list.currentIndexChanged.connect(
+            lambda: namelist_registry.set_current(now_namelist_card_list.currentText())
+        )
+
+        # 注册表名单列表变化 → 刷新下拉框（用于新建/导入后统一刷新）
+        namelist_registry.namelists_changed.connect(self._on_namelists_changed)
+
+    def _on_namelists_changed(self, namelists):
+        ui = self.now_namelist_card
+        ui.now_namelist_card_list_item = list(namelists)
+        ui.now_namelist_card_list.clear()
+        ui.now_namelist_card_list.addItems(namelists)
+        if ui.now_namelist_card_list.count() > 0:
+            ui.now_namelist_card_list.setCurrentIndex(0)
+
     def add_new_namelist(self):
         """新建名单"""
 
@@ -90,15 +101,9 @@ class SettNLUILogic(SettNLUI):
                 new_namelist_ID
             )
 
-            # 添加名单标识符到 当前名单 下拉框
-            ui.now_namelist_card_list_item.append(new_namelist_path)
-            ui.now_namelist_card_list.clear()
-            ui.now_namelist_card_list.addItems(ui.now_namelist_card_list_item)
-
-            # 选中新添加的名单 (最后一项)
-            ui.now_namelist_card_list.setCurrentIndex(
-                ui.now_namelist_card_list.count() - 1
-            )
+            # 执行刷新流程
+            namelist_registry.scan()
+            namelist_registry.set_current(new_namelist_path)
 
             # 加载名单
             self.load_namelist_from_dataset(new_namelist_data)
@@ -139,13 +144,8 @@ class SettNLUILogic(SettNLUI):
                     # 类型保护
                     assert saved_path is not None
 
-                    ui.now_namelist_card_list_item.append(Path(saved_path).name)
-                    ui.now_namelist_card_list.clear()
-                    ui.now_namelist_card_list.addItems(ui.now_namelist_card_list_item)
-                    # 选中最后一项 (新导入的)
-                    ui.now_namelist_card_list.setCurrentIndex(
-                        ui.now_namelist_card_list.count() - 1
-                    )
+                    namelist_registry.scan()
+                    namelist_registry.set_current(saved_path)
                     self.load_namelist_from_dataset(dataset)
                 else:
                     print("导入失败：文件格式不支持或无有效表头")

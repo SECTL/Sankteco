@@ -5,10 +5,11 @@
 """
 
 from pathlib import Path
-from typing import List
+
 import tablib, qrcode
 from pyzbar.pyzbar import decode
 from PIL import Image
+
 from app_const_var import LogicFilesString, AssetsPathTXT
 
 

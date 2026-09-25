@@ -85,29 +85,6 @@ class AppConfigString:
     LANGUAGE_GROUP = "Language"
     LANGUAGE_NAME = "Language"
 
-    # 基本 类字符串
-    BASIC_GROUP = "Basic"
-    BASIC_NAMELISTS_NAME = "NameLists"
-    BASIC_CARTON_BEAUTY_LEVEL_NAME = "CartonBeautyLevel"
-    BASIC_SHOW_RESULT_WAY_NAME = "ShowResultWay"
-
-    # 视听 类字符串
-    AV_GROUP = "Av"
-    AV_MUSIC_SWITCH_NAME = "MusicSwitch"
-    AV_MUSIC_PATH_NAME = "MusicPath"
-    AV_MUSIC_VOLUME_NAME = "MusicVolume"
-    AV_MUSIC_PLAY_SMOOTHLY_NAME = "MusicPlaySmoothly"
-    AV_MUSIC_PAUSE_SMOOTHLY_NAME = "MusicPauseSmoothly"
-    AV_SOUND_SWITCH_NAME = "SoundSwitch"
-    AV_SOUND_PATH_NAME = "SoundPath"
-    AV_SOUND_PLAY_TIME_NAME = "SoundPlayTime"
-    AV_READ_SWITCH_NAME = "ReadSwitch"
-    AV_READ_TIME_NAME = "ReadTime"
-    AV_DARK_LIGHT_NAME = "DarkLight"
-    AV_WINDOW_EFFORT_NAME = "WindowEffort"
-    AV_HITOKOTO_API_NAME = "HitokotoApi"
-    AV_HITOKOTO_RENEW_NAME = "HitokotoRenewTime"
-
 
 class LogicFilesString:
     """逻辑文件的字符串"""

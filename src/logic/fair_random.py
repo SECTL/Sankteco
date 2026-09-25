@@ -1,7 +1,5 @@
 import time
 from collections import defaultdict
-
-# 使用 SystemRandom，每次运行结果均不可复现，基于系统熵
 from random import SystemRandom
 
 

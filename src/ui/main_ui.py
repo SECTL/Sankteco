@@ -51,9 +51,16 @@ class MainWindow(FluentWindow):
         self._init_plugin_system()
 
         # 初始化信号连接函数
-        self.singal_connection()
+        self.signal_connection()
 
     # ========== 异步导入子页面 ==========
+
+    async def import_pray_ui(self) -> None:
+        """导入并重命名 祈福 子页面的协程"""
+        from ui.pray_ui.pray_ui_logic import PrayUILogic
+
+        self.pray_ui = PrayUILogic(self)
+        self.pray_ui.setObjectName(MainUIString.SUBPAGE_PRAY_OBJNAME)
 
     async def import_information_ui(self) -> None:
         """导入并重命名 信息 子页面的协程"""
@@ -78,13 +85,6 @@ class MainWindow(FluentWindow):
         )
         # 绑定点击事件
         self.settings_button.clicked.connect(self.open_settings_window)
-
-    async def import_pray_ui(self) -> None:
-        """导入并重命名 祈福 子页面的协程"""
-        from ui.pray_ui.pray_ui import PrayUI
-
-        self.pray_ui = PrayUI(self)
-        self.pray_ui.setObjectName(MainUIString.SUBPAGE_PRAY_OBJNAME)
 
     async def import_ui(self) -> None:
         """导入子页面的基础函数"""
@@ -155,7 +155,7 @@ class MainWindow(FluentWindow):
 
     # ========== 信号连接 ==========
 
-    def singal_connection(self) -> None:
+    def signal_connection(self) -> None:
         """信号连接函数"""
 
         # 主题更改信号
