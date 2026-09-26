@@ -74,7 +74,7 @@ class SettNLUILogic(SettNLUI):
             lambda: namelist_registry.set_current(now_namelist_card_list.currentText())
         )
 
-        # 注册表名单列表变化 → 刷新下拉框（用于新建/导入后统一刷新）
+        # 注册表名单列表变化 → 刷新下拉框(用于新建/导入后统一刷新)
         namelist_registry.namelists_changed.connect(self._on_namelists_changed)
 
     def _on_namelists_changed(self, namelists):
@@ -238,11 +238,11 @@ class SettNLUILogic(SettNLUI):
         ui.name_table_widget_row = 0
         ui.name_table_widget_data = []
 
-        # 导入数据，解包获得 Dataset
+        # 导入数据,解包获得 Dataset
         dataset, _ = AIENamelist.import_namelist(namelist_path)
         if dataset is not None:
             try:
-                # 获取有效行数（假设列 EXIST 存在）
+                # 获取有效行数(假设列 EXIST 存在)
                 row_count = len(dataset[LogicFilesString.AIENAMELIST_HEADER_EXIST])
                 ui.name_table_widget.setRowCount(row_count)
                 for i in range(row_count):

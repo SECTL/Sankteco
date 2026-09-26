@@ -17,7 +17,7 @@ class DocsRUILogic(DocsRUI):
         # 初始化信号连接
         self.signal_connection()
 
-        # 延迟加载，确保所有控件就绪
+        # 延迟加载,确保所有控件就绪
         QTimer.singleShot(200, self.load_first_doc)  # type: ignore
 
     def signal_connection(self):
@@ -34,7 +34,7 @@ class DocsRUILogic(DocsRUI):
         now_doc_list = self.docs_combobox.now_doc_card_list
 
         if now_doc_list.count() > 0:
-            # 先设为 -1 再设 0，强制触发
+            # 先设为 -1 再设 0,强制触发
             now_doc_list.setCurrentIndex(-1)
             now_doc_list.setCurrentIndex(0)
 

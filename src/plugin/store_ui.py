@@ -1,9 +1,9 @@
 """
 插件商店页面
 
-提供插件管理界面，包含两个标签页：
-1. 已安装：显示本地已安装的插件列表，支持启用/禁用/卸载
-2. 在线插件：从远程索引获取可用插件列表，支持安装/更新
+提供插件管理界面,包含两个标签页：
+1. 已安装：显示本地已安装的插件列表,支持启用/禁用/卸载
+2. 在线插件：从远程索引获取可用插件列表,支持安装/更新
 """
 
 from __future__ import annotations
@@ -57,7 +57,7 @@ class PluginStorePage(QWidget):
         self.main_layout.setContentsMargins(40, 30, 40, 30)
         self.main_layout.setSpacing(20)
 
-        # 标题行（标题 + 刷新按钮）
+        # 标题行(标题 + 刷新按钮)
         title_layout = QHBoxLayout()
         self.title_label = SubtitleLabel("插件商店", self)
         self.title_label.setObjectName("store_title")
@@ -96,7 +96,7 @@ class PluginStorePage(QWidget):
         self.stacked_widget.setCurrentWidget(self.installed_tab)
         self.pivot.setCurrentItem("installed")
 
-        # 连接切换信号（更新副标题）
+        # 连接切换信号(更新副标题)
         self.stacked_widget.currentChanged.connect(self._on_tab_changed)
 
         self.main_layout.addWidget(self.pivot)
@@ -163,7 +163,7 @@ class PluginStorePage(QWidget):
         return widget
 
     def _on_online_tab_selected(self) -> None:
-        """在线标签被选中时触发，延迟加载远程索引"""
+        """在线标签被选中时触发,延迟加载远程索引"""
         if not self._online_loaded:
             self._fetch_online_plugins()
         # 切换到在线标签页
@@ -181,7 +181,7 @@ class PluginStorePage(QWidget):
     def _on_global_refresh(self) -> None:
         """全局刷新：刷新已安装列表和在线列表"""
         self._refresh_plugin_list()
-        self._online_loaded = False  # 重置状态，强制重新拉取
+        self._online_loaded = False  # 重置状态,强制重新拉取
         self._fetch_online_plugins()
         InfoBar.success(
             title="刷新完成", content="已更新插件列表", parent=self, duration=1500
@@ -251,7 +251,7 @@ class PluginStorePage(QWidget):
             self.online_subtitle_label.setText("在线插件 (0)")
             InfoBar.warning(
                 title="提示",
-                content="获取在线插件列表失败，请检查网络连接",
+                content="获取在线插件列表失败,请检查网络连接",
                 parent=self,
                 duration=3000,
             )
@@ -323,11 +323,11 @@ class PluginStorePage(QWidget):
         """处理更新请求"""
         # 先卸载
         self.loader.uninstall_plugin(plugin_id)
-        # 再安装（复用安装逻辑）
+        # 再安装(复用安装逻辑)
         self._on_install_requested(plugin_id)
 
     def _on_install_requested(self, plugin_id: str) -> None:
-        """处理安装请求，进度反馈融入卡片"""
+        """处理安装请求,进度反馈融入卡片"""
         plugin_info = None
         for p in self._remote_plugins:
             if p.get("id") == plugin_id:

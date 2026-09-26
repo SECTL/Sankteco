@@ -46,7 +46,7 @@ class PrayUIString:
     不包含隶属于主程序多UI交互的字符串"""
 
     # 一言显示 部分
-    HITOKOTO_SHOW_LABEL_DEFAUT = _("旗开得胜，一举夺魁！")
+    HITOKOTO_SHOW_LABEL_DEFAUT = _("旗开得胜,一举夺魁！")
 
     # 点名结果显示 部分
     PRAY_RESULT_LIST_DEFAULT = _("别紧张")

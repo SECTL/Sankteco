@@ -31,7 +31,7 @@ def set_widget_to_layout(wlist: list, layout: QLayout):
 
 
 class SettLangUI(QFrame):
-    """子页面: 语言（ 首选项 的子页面）的基础UI类,
+    """子页面: 语言( 首选项 的子页面)的基础UI类,
     此页面包含了程序显示语言的可调整设置选项,
     引用时可作 SettLangUI / settings_language_ui"""
 

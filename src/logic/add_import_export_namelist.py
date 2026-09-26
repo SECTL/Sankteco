@@ -22,7 +22,7 @@ class AIENamelist:
     def add_namelist(namelist_id: str):
         """添加新名单"""
 
-        # 创建一个空的 Dataset，并指定表头(headers)
+        # 创建一个空的 Dataset,并指定表头(headers)
         namelist_data = tablib.Dataset(headers=LogicFilesString.AIENAMELIST_HEADER)
 
         # 用 .append() 添加初始行(数据需与表头顺序对应)
@@ -40,7 +40,7 @@ class AIENamelist:
 
     @staticmethod
     def import_namelist(namelist_path: str):
-        """导入名单，成功返回 (Dataset, saved_path)，失败返回 (None, None)"""
+        """导入名单,成功返回 (Dataset, saved_path),失败返回 (None, None)"""
 
         path = Path(namelist_path)
         if not path.is_file() or path.stat().st_size == 0:
@@ -146,9 +146,9 @@ class AIENamelist:
 
     @staticmethod
     def convert_namelist_not_txt(namelist_data: tablib.Dataset):
-        """转换非 .txt 名单为 Sankteco 格式，若无法识别则返回 None"""
+        """转换非 .txt 名单为 Sankteco 格式,若无法识别则返回 None"""
 
-        # 没有表头 -> 无法识别，直接拒绝
+        # 没有表头 -> 无法识别,直接拒绝
         if namelist_data.headers is None:
             return None
 
@@ -158,7 +158,7 @@ class AIENamelist:
         if headers == LogicFilesString.AIENAMELIST_HEADER:
             return namelist_data
 
-        # 尝试根据已知列名进行转换（仅当包含编号或姓名列）
+        # 尝试根据已知列名进行转换(仅当包含编号或姓名列)
         no_idx = (
             headers.index(LogicFilesString.AIENAMELIST_HEADER_NO)
             if LogicFilesString.AIENAMELIST_HEADER_NO in headers
@@ -170,7 +170,7 @@ class AIENamelist:
             else None
         )
 
-        # 如果既没有编号也没有姓名列，则无法转换
+        # 如果既没有编号也没有姓名列,则无法转换
         if no_idx is None and name_idx is None:
             return None
 

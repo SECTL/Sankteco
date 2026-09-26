@@ -1,6 +1,6 @@
 """
-子页面：信息，
-此页面包含了本项目的相关信息，包含两部分：信息板、支持，
+子页面：信息,
+此页面包含了本项目的相关信息,包含两部分：信息板、支持,
 引用时可作 InfoUI / information_ui
 """
 
@@ -46,7 +46,7 @@ class ShowInfobar:
 
 
 class InformationBoardCardGroup(qfw.ElevatedCardWidget):
-    """信息板 部分，继承自 卡片组件 ElevatedCardWidget
+    """信息板 部分,继承自 卡片组件 ElevatedCardWidget
     引用时可作 InfoBodCard"""
 
     def __init__(self, parent=None):
@@ -73,7 +73,7 @@ class InformationBoardCardGroup(qfw.ElevatedCardWidget):
 
 
 class SupportCardGroup(qfw.GroupHeaderCardWidget):
-    """支持 部分，继承自 上下分组布局卡片 GroupHeaderCardWidget
+    """支持 部分,继承自 上下分组布局卡片 GroupHeaderCardWidget
     引用时可作 SupptCard"""
 
     def __init__(self, parent=None):

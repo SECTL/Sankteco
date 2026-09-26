@@ -184,7 +184,7 @@ class PrayUILogic(PrayUI):
         return self._pick_fair(candidates, n)
 
     def _load_and_filter_candidates(self) -> list:
-        """读取当前下拉框选中的名单，并按性别/组别/标签过滤"""
+        """读取当前下拉框选中的名单,并按性别/组别/标签过滤"""
 
         name = self.pray_quick_setting_group.pray_namelist_choose_combobox.currentText()
         if not name:
@@ -272,6 +272,6 @@ class PrayUILogic(PrayUI):
         self._fair_picker = None
 
     def on_namelist_switched(self, name: str):
-        """换名单 -> 丢弃旧的公平历史，避免污染"""
+        """换名单 -> 丢弃旧的公平历史,避免污染"""
 
         self._fair_picker = None

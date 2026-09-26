@@ -26,7 +26,7 @@ from qfluentwidgets import (
 class PluginCard(SettingCard):
     """
     已安装插件信息卡片
-    使用 QFW 组件，无固定宽度
+    使用 QFW 组件,无固定宽度
     """
 
     uninstall_requested = Signal(str)
@@ -53,7 +53,7 @@ class PluginCard(SettingCard):
         self.plugin_id = plugin_id
         self.is_active = is_active
 
-        # 版本信息（使用 BodyLabel）
+        # 版本信息(使用 BodyLabel)
         self.version_label = BodyLabel(f"v{version}")
         self.version_label.setObjectName("plugin_version_label")
 
@@ -70,7 +70,7 @@ class PluginCard(SettingCard):
         self.toggle_btn.setChecked(is_active)
         self.toggle_btn.checkedChanged.connect(self._on_toggle)
 
-        # 卸载按钮（无固定宽度）
+        # 卸载按钮(无固定宽度)
         self.uninstall_btn = PushButton(FluentIcon.DELETE, "卸载", self)
         self.uninstall_btn.clicked.connect(self._on_uninstall)
 
@@ -101,7 +101,7 @@ class PluginCard(SettingCard):
 class OnlinePluginCard(SettingCard):
     """
     在线插件信息卡片
-    包含进度环反馈，不使用固定宽度
+    包含进度环反馈,不使用固定宽度
     """
 
     install_requested = Signal(str)
@@ -146,12 +146,12 @@ class OnlinePluginCard(SettingCard):
         self.separator_label = BodyLabel(" " + "|" + " ")
         self.separator_label.setObjectName("plugin_separator")
 
-        # 进度环（默认隐藏）
+        # 进度环(默认隐藏)
         self.progress_ring = ProgressRing(self)
         self.progress_ring.setVisible(False)
         self.progress_ring.setFixedSize(24, 24)
 
-        # 操作按钮（无固定宽度）
+        # 操作按钮(无固定宽度)
         self.action_btn = self._create_action_button()
 
         # 添加到布局
@@ -205,13 +205,13 @@ class OnlinePluginCard(SettingCard):
         :param value: 0-100
         """
         if value < 0:
-            # 安装失败，恢复按钮状态
+            # 安装失败,恢复按钮状态
             self._is_installing = False
             self.progress_ring.setVisible(False)
             self.action_btn.setVisible(True)
             return
         elif value >= 100:
-            # 安装完成，恢复按钮状态
+            # 安装完成,恢复按钮状态
             self._is_installing = False
             self.progress_ring.setVisible(False)
             self.action_btn.setVisible(True)
@@ -226,7 +226,7 @@ class OnlinePluginCard(SettingCard):
             self.progress_ring.setValue(value)
 
     def _replace_action_button(self) -> None:
-        """替换操作按钮（安装完成后由进度环切换为"已安装"按钮）"""
+        """替换操作按钮(安装完成后由进度环切换为"已安装"按钮)"""
         # 移除旧的按钮
         self.hBoxLayout.removeWidget(self.action_btn)
         self.action_btn.deleteLater()
@@ -239,5 +239,5 @@ class OnlinePluginCard(SettingCard):
         self.hBoxLayout.insertWidget(idx + 1, new_btn)
 
     def set_installing_state(self, is_installing: bool) -> None:
-        """外部设置安装状态（用于恢复）"""
+        """外部设置安装状态(用于恢复)"""
         self._is_installing = is_installing

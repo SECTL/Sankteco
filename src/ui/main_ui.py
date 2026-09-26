@@ -80,7 +80,7 @@ class MainWindow(FluentWindow):
         self.settings_button = NavigationPushButton(
             FI.SETTING,
             MainUIString.SUBPAGE_SETTINGS_NAVNAME,
-            isSelectable=False,  # 不可选中（因为不切换页面）
+            isSelectable=False,  # 不可选中(因为不切换页面)
             parent=self.navigationInterface,
         )
         # 绑定点击事件
@@ -161,7 +161,7 @@ class MainWindow(FluentWindow):
         # 主题更改信号
         qconfig.themeChanged.connect(self._apply_theme)
 
-        # 插件信号（如果插件商店已创建）
+        # 插件信号(如果插件商店已创建)
         if self.plugin_store_page is not None:
             self.plugin_store_page.plugin_toggle_requested.connect(
                 self._on_plugin_toggle
@@ -169,7 +169,7 @@ class MainWindow(FluentWindow):
             self.plugin_store_page.plugin_uninstall_requested.connect(
                 self._on_plugin_uninstall
             )
-            # 安装和更新信号（后续实现）
+            # 安装和更新信号(后续实现)
             self.plugin_store_page.plugin_install_requested.connect(
                 self._on_plugin_install
             )
@@ -178,7 +178,7 @@ class MainWindow(FluentWindow):
             )
             print("插件信号已连接")
 
-        # 全局插件信号（用于跨组件通信）
+        # 全局插件信号(用于跨组件通信)
         plugin_signals.plugin_installed.connect(self._on_plugin_installed)
         plugin_signals.plugin_uninstalled.connect(self._on_plugin_uninstalled)
         plugin_signals.plugin_enabled.connect(self._on_plugin_enabled)
@@ -188,29 +188,29 @@ class MainWindow(FluentWindow):
     # ========== 首选项窗口初始化 ==========
 
     def open_settings_window(self):
-        """打开独立的设置窗口（单例模式）"""
+        """打开独立的设置窗口(单例模式)"""
         from PySide2.QtCore import Qt
         from ui.settings_window import SettWindow
 
         if self.settings_window is None:
             self.settings_window = SettWindow()
-            # 设置窗口关闭后自动销毁，并清空引用
+            # 设置窗口关闭后自动销毁,并清空引用
             self.settings_window.setAttribute(Qt.WA_DeleteOnClose, True)  # type: ignore
-            # 连接窗口的 destroyed 信号，以便在窗口关闭后清空引用
+            # 连接窗口的 destroyed 信号,以便在窗口关闭后清空引用
             self.settings_window.destroyed.connect(self._on_settings_closed)
         self.settings_window.show()
         self.settings_window.raise_()
         self.settings_window.activateWindow()
 
     def _on_settings_closed(self):
-        """当设置窗口被关闭时，清空引用"""
+        """当设置窗口被关闭时,清空引用"""
 
         self.settings_window = None
 
     # ========== 插件系统初始化 ==========
 
     def _init_plugin_system(self) -> None:
-        """初始化插件系统（加载插件、创建商店页面、注册插件）"""
+        """初始化插件系统(加载插件、创建商店页面、注册插件)"""
 
         # 1. 创建插件上下文
         self.plugin_context = PluginContext(self, self.cfg)
@@ -224,10 +224,10 @@ class MainWindow(FluentWindow):
         self.plugin_store_page = PluginStorePage(loader, self)
         self.plugin_store_page.setObjectName("plugin_store_page")
 
-        # 4. 初始化导航栏（包含商店页面）
+        # 4. 初始化导航栏(包含商店页面)
         self.init_navigation()
 
-        # 5. 如果没有插件，提前返回
+        # 5. 如果没有插件,提前返回
         if loaded_count == 0:
             print("没有发现任何插件")
             return
@@ -252,7 +252,7 @@ class MainWindow(FluentWindow):
                     self.plugin_widgets[plugin_id] = widget
                     print(f"插件 '{name}' 已添加到导航栏")
                 else:
-                    print(f"插件 {plugin_id} 未返回有效的 QWidget（可能为后台插件）")
+                    print(f"插件 {plugin_id} 未返回有效的 QWidget(可能为后台插件)")
             except Exception as e:
                 print(f"注册插件 {plugin_id} 时发生错误: {e}")
                 import traceback
@@ -302,7 +302,7 @@ class MainWindow(FluentWindow):
                 self._show_plugin_info(f"插件「{plugin_name}」已启用", "success")
             else:
                 self._show_plugin_info(
-                    f"插件「{plugin_name}」已启用（后台插件）", "info"
+                    f"插件「{plugin_name}」已启用(后台插件)", "info"
                 )
 
         except Exception as e:
@@ -324,7 +324,7 @@ class MainWindow(FluentWindow):
             self._update_card_state(plugin_id, True)
 
     def _uninstall_plugin(self, plugin_id: str) -> None:
-        """卸载插件流程（内部）"""
+        """卸载插件流程(内部)"""
 
         self._remove_plugin_page(plugin_id)
         success = self.plugin_loader.uninstall_plugin(plugin_id)
@@ -332,10 +332,10 @@ class MainWindow(FluentWindow):
             self._show_plugin_info(f"插件已卸载", "success")
             self._refresh_store()
         else:
-            self._show_plugin_info(f"卸载失败，请检查日志", "error")
+            self._show_plugin_info(f"卸载失败,请检查日志", "error")
 
     def _load_single_plugin(self, plugin_id: str) -> None:
-        """加载单个插件（用于安装后自动加载）"""
+        """加载单个插件(用于安装后自动加载)"""
 
         register_func = self.plugin_loader._load_single_plugin(plugin_id)
         if register_func:
@@ -405,7 +405,7 @@ class MainWindow(FluentWindow):
             self.plugin_store_page.refresh_online_list()
 
     def _show_plugin_info(self, message: str, level: str = "info") -> None:
-        """显示插件通知（使用 InfoBar）"""
+        """显示插件通知(使用 InfoBar)"""
         from qfluentwidgets import InfoBar
 
         if level == "success":
@@ -429,7 +429,7 @@ class MainWindow(FluentWindow):
             self._disable_plugin(plugin_id, plugin_name)
 
     def _on_plugin_uninstall(self, plugin_id: str) -> None:
-        """处理卸载请求（含确认对话框）"""
+        """处理卸载请求(含确认对话框)"""
         from qfluentwidgets import MessageBox
 
         meta = self.plugin_loader.get_plugin_meta(plugin_id)
@@ -437,7 +437,7 @@ class MainWindow(FluentWindow):
 
         msg_box = MessageBox(
             title="确认卸载",
-            content=f"确定要卸载插件「{plugin_name}」吗？\n\n卸载后将删除插件文件，此操作不可恢复。",
+            content=f"确定要卸载插件「{plugin_name}」吗？\n\n卸载后将删除插件文件,此操作不可恢复",
             parent=self,
         )
         if msg_box.exec_():
@@ -450,7 +450,7 @@ class MainWindow(FluentWindow):
         self._refresh_store()
 
     def _on_plugin_update(self, plugin_id: str) -> None:
-        """处理更新请求（待实现）"""
+        """处理更新请求(待实现)"""
 
         self._show_plugin_info(f"更新插件 {plugin_id} 功能开发中", "info")
 
@@ -468,11 +468,11 @@ class MainWindow(FluentWindow):
     def _on_plugin_enabled(self, plugin_id: str) -> None:
         """插件启用信号"""
 
-        # 由 _enable_plugin 实际处理，此处仅用于全局通知
+        # 由 _enable_plugin 实际处理,此处仅用于全局通知
         pass
 
     def _on_plugin_disabled(self, plugin_id: str) -> None:
         """插件禁用信号"""
 
-        # 由 _disable_plugin 实际处理，此处仅用于全局通知
+        # 由 _disable_plugin 实际处理,此处仅用于全局通知
         pass

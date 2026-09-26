@@ -11,12 +11,12 @@ from qfluentwidgets import FluentIcon
 
 class PluginContext(QObject):
     """
-    插件安全上下文，只暴露必要的主程序功能
+    插件安全上下文,只暴露必要的主程序功能
     """
 
-    # 全局信号（插件可监听或发射）
+    # 全局信号(插件可监听或发射)
     student_selected = Signal(str)  # 点名完成
-    theme_changed = Signal(bool)  # 主题切换（True=暗色）
+    theme_changed = Signal(bool)  # 主题切换(True=暗色)
 
     def __init__(self, main_window: "MainWindow", config: "AppConfig"):  # type: ignore
         super().__init__()
@@ -28,7 +28,7 @@ class PluginContext(QObject):
     # ---------- 插件 ID 管理 ----------
     def set_plugin_id(self, plugin_id: str) -> None:
         """
-        设置当前操作的插件ID（由主程序在调用 register 前调用）
+        设置当前操作的插件ID(由主程序在调用 register 前调用)
         """
         self._plugin_id = plugin_id
 
@@ -65,7 +65,7 @@ class PluginContext(QObject):
         """
         from qfluentwidgets import NavigationItemPosition
 
-        # 确保 widget 有唯一的 objectName（用于路由）
+        # 确保 widget 有唯一的 objectName(用于路由)
         if not widget.objectName():
             widget.setObjectName(f"plugin_{id(widget)}")
 
@@ -93,7 +93,7 @@ class PluginContext(QObject):
 
     # ---------- 配置访问 API ----------
     def get_config_value(self, key: str):
-        """安全地读取配置值（只读）"""
+        """安全地读取配置值(只读)"""
         return getattr(self._config, key, None)
 
     # ---------- 日志 API ----------
@@ -103,7 +103,7 @@ class PluginContext(QObject):
 
     # ---------- 插件私有存储 ----------
     def set_data(self, key: str, value: Any):
-        """存储插件私有数据（不会持久化）"""
+        """存储插件私有数据(不会持久化)"""
         self._plugin_data[key] = value
 
     def get_data(self, key: str, default=None):

@@ -1,6 +1,6 @@
 """
-页面：文档阅读，
-此页面用于在程序内阅读文档，
+页面：文档阅读,
+此页面用于在程序内阅读文档,
 引用时可作 DocsRUI / docs_reader_ui
 """
 
@@ -32,8 +32,8 @@ class NowDocCard(qfw.SettingCard):
 
 
 class DocsRUI(qfw.FluentWidget):
-    """页面：文档阅读的基础UI类，
-    此页面用于在程序内阅读文档，
+    """页面：文档阅读的基础UI类,
+    此页面用于在程序内阅读文档,
     引用时可作 DocsRUI / docs_reader_ui"""
 
     def __init__(self, parent=None):

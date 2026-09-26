@@ -15,7 +15,7 @@ from app_const_var import AssetsPathTXT
 class NamelistRegistry(QObject):
     """全局名单注册表"""
 
-    # 名单列表发生变化（新建/导入/删除/刷新后发出）
+    # 名单列表发生变化(新建/导入/删除/刷新后发出)
     namelists_changed = Signal(list)  # list[str] 名单文件名列表
 
     # 当前选中的名单发生变化
@@ -29,7 +29,7 @@ class NamelistRegistry(QObject):
 
     # ---------- 扫描 ----------
     def scan(self) -> List[str]:
-        """扫描名单文件夹，更新内部列表并发出信号"""
+        """扫描名单文件夹,更新内部列表并发出信号"""
 
         folder = Path(AssetsPathTXT.APP_NAMELISTS_FOLDER)
 

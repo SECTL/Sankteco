@@ -1,7 +1,7 @@
 # src/plugin/loader.py
 """
 插件加载器
-负责发现、加载、启用/禁用、卸载本地插件，以及从远程索引安装插件
+负责发现、加载、启用/禁用、卸载本地插件,以及从远程索引安装插件
 """
 
 import logging
@@ -21,10 +21,10 @@ try:
     import requests
 except ImportError:
     requests = None
-    logging.getLogger("PluginLoader").warning("requests 库未安装，远程索引功能不可用")
+    logging.getLogger("PluginLoader").warning("requests 库未安装,远程索引功能不可用")
 
 logger = logging.getLogger("PluginLoader")
-# 禁用 SSL 警告（因使用 verify=False）
+# 禁用 SSL 警告(因使用 verify=False)
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
@@ -32,11 +32,11 @@ class PluginLoader:
     """
     插件加载器
     支持两种来源：
-    1. Stevedore（生产环境，通过 pip 安装的插件）
-    2. 本地 plugins/ 目录（开发环境，直接拷贝文件夹）
+    1. Stevedore(生产环境,通过 pip 安装的插件)
+    2. 本地 plugins/ 目录(开发环境,直接拷贝文件夹)
     """
 
-    # 远程插件索引 URL（GitHub raw）
+    # 远程插件索引 URL(GitHub raw)
     REMOTE_INDEX_URL = "https://raw.githubusercontent.com/SECTL/Sankteco-Plugins-Index/main/plugins.json"
 
     def __init__(self, namespace: str = "sankteco.plugin"):
@@ -47,13 +47,13 @@ class PluginLoader:
         self.namespace = namespace
         # 存储所有插件信息：{ plugin_id: { register, meta, module, enabled, is_local, _plugin_dir } }
         self._plugins: Dict[str, Dict[str, Any]] = {}
-        # 本地插件目录（项目根目录下的 plugins/）
+        # 本地插件目录(项目根目录下的 plugins/)
         self._local_plugins_dir = Path(__file__).parent.parent.parent / "plugins"
-        # 用户数据目录（用于插件配置存储）
+        # 用户数据目录(用于插件配置存储)
         self._data_dir = self._get_data_dir()
 
     def _get_data_dir(self) -> Path:
-        """获取用户数据目录（跨平台）"""
+        """获取用户数据目录(跨平台)"""
         data_dir = QStandardPaths.writableLocation(QStandardPaths.AppDataLocation)  # type: ignore
         plugin_data_dir = Path(data_dir) / "plugins" / "data"
         plugin_data_dir.mkdir(parents=True, exist_ok=True)
@@ -75,14 +75,14 @@ class PluginLoader:
     def load_all_plugins(self) -> int:
         """
         加载所有插件
-        优先使用 Stevedore，如果无插件则回退到本地扫描
-        :return: 成功加载的插件数量（启用且可用的插件）
+        优先使用 Stevedore,如果无插件则回退到本地扫描
+        :return: 成功加载的插件数量(启用且可用的插件)
         """
         loaded_count = self._load_from_stevedore()
         if loaded_count > 0:
             return loaded_count
 
-        logger.info("Stevedore 未发现插件，回退到扫描本地 plugins/ 目录...")
+        logger.info("Stevedore 未发现插件,回退到扫描本地 plugins/ 目录...")
         return self._load_from_local_plugins()
 
     # ========== Stevedore 加载 ==========
@@ -154,11 +154,11 @@ class PluginLoader:
         return {}
 
     def get_all_plugin_ids(self) -> List[str]:
-        """获取所有已记录插件的 ID 列表（包括禁用的）"""
+        """获取所有已记录插件的 ID 列表(包括禁用的)"""
         return list(self._plugins.keys())
 
     def get_all_plugin_info(self) -> List[Dict[str, Any]]:
-        """获取所有插件的简要信息（用于 UI 展示）"""
+        """获取所有插件的简要信息(用于 UI 展示)"""
         result = []
         for plugin_id, info in self._plugins.items():
             result.append(
@@ -173,12 +173,12 @@ class PluginLoader:
     def is_plugin_enabled(self, plugin_id: str) -> bool:
         """
         检查插件是否启用
-        优先使用 _plugins 中的 enabled 标志，如果不存在则检查文件夹状态
+        优先使用 _plugins 中的 enabled 标志,如果不存在则检查文件夹状态
         """
         plugin_info = self._plugins.get(plugin_id)
         if plugin_info is not None:
             return plugin_info.get("enabled", False)
-        # 如果记录不存在（例如插件未被扫描到），检查文件夹
+        # 如果记录不存在(例如插件未被扫描到),检查文件夹
         plugin_dir = self._get_plugin_dir_by_id(plugin_id)
         if plugin_dir:
             return not plugin_dir.name.endswith(".disabled")
@@ -187,25 +187,25 @@ class PluginLoader:
     # ========== 热重载 ==========
 
     def reload_all_plugins(self) -> int:
-        """全量重载所有插件（清空缓存重新扫描）"""
+        """全量重载所有插件(清空缓存重新扫描)"""
         logger.info("热重载所有插件...")
         self._plugins.clear()
         return self.load_all_plugins()
 
     def reload_plugin(self, plugin_id: str) -> bool:
-        """单个插件重载（暂不支持，提示使用全量重载）"""
-        logger.warning("单个插件热重载暂不支持，请使用 reload_all_plugins()")
+        """单个插件重载(暂不支持,提示使用全量重载)"""
+        logger.warning("单个插件热重载暂不支持,请使用 reload_all_plugins()")
         return False
 
     # ========== 卸载与启用/禁用 ==========
 
     def unload_plugin(self, plugin_id: str) -> bool:
         """
-        从内存中卸载插件（不删除文件）
-        保留 _plugins 记录，但清空 register 和 module，标记为禁用
+        从内存中卸载插件(不删除文件)
+        保留 _plugins 记录,但清空 register 和 module,标记为禁用
         """
         if plugin_id not in self._plugins:
-            logger.warning(f"插件 {plugin_id} 未加载，无法卸载")
+            logger.warning(f"插件 {plugin_id} 未加载,无法卸载")
             return False
 
         plugin_info = self._plugins[plugin_id]
@@ -222,22 +222,22 @@ class PluginLoader:
                     del sys.modules[name]
                 logger.debug(f"已从 sys.modules 移除: {to_remove}")
 
-        # 清空运行时状态，保留元数据
+        # 清空运行时状态,保留元数据
         plugin_info["register"] = None
         plugin_info["module"] = None
         plugin_info["enabled"] = False
-        logger.info(f"插件 {plugin_id} 已从内存中卸载（保留记录）")
+        logger.info(f"插件 {plugin_id} 已从内存中卸载(保留记录)")
         return True
 
     def uninstall_plugin(self, plugin_id: str) -> bool:
         """
         彻底卸载插件：从内存移除 + 删除文件夹
-        如果是 Stevedore 插件，仅移除记录
+        如果是 Stevedore 插件,仅移除记录
         """
         # 先从内存卸载
         self.unload_plugin(plugin_id)
 
-        # 查找本地插件目录（包括 .disabled）
+        # 查找本地插件目录(包括 .disabled)
         plugin_dir = self._get_plugin_dir_by_id(plugin_id)
         if plugin_dir and plugin_dir.exists():
             try:
@@ -250,7 +250,7 @@ class PluginLoader:
                 logger.error(f"删除失败: {e}")
                 return False
 
-        # 如果是 Stevedore 插件（无本地文件夹），仅移除记录
+        # 如果是 Stevedore 插件(无本地文件夹),仅移除记录
         if plugin_id in self._plugins:
             del self._plugins[plugin_id]
             logger.info(f"已移除 Stevedore 插件记录: {plugin_id}")
@@ -260,7 +260,7 @@ class PluginLoader:
         return False
 
     def _get_metadata_path(self, plugin_dir: Path) -> Optional[Path]:
-        """返回插件目录中的元数据文件路径，优先 plugin.json，其次 manifest.json"""
+        """返回插件目录中的元数据文件路径,优先 plugin.json,其次 manifest.json"""
         plugin_json = plugin_dir / "plugin.json"
         if plugin_json.exists():
             return plugin_json
@@ -302,9 +302,9 @@ class PluginLoader:
     def enable_plugin(self, plugin_id: str, context) -> Optional[Callable]:
         """
         启用插件：
-        1. 如果存在 .disabled 文件夹，重命名为正常名称
+        1. 如果存在 .disabled 文件夹,重命名为正常名称
         2. 重新加载插件模块
-        :return: register 函数，失败返回 None
+        :return: register 函数,失败返回 None
         """
         plugins_root = self._local_plugins_dir
         if not plugins_root.exists():
@@ -343,7 +343,7 @@ class PluginLoader:
         2. 将插件文件夹重命名为 .disabled
         3. 更新 _plugins 记录状态
         """
-        # 先卸载（清空模块，保留记录）
+        # 先卸载(清空模块,保留记录)
         self.unload_plugin(plugin_id)
 
         # 查找插件目录
@@ -365,7 +365,7 @@ class PluginLoader:
             self._plugins[plugin_id]["module"] = None
             self._plugins[plugin_id]["_plugin_dir"] = str(new_path.absolute())
         else:
-            # 如果记录不存在（例如首次启动时未扫描到），创建一条禁用记录
+            # 如果记录不存在(例如首次启动时未扫描到),创建一条禁用记录
             meta_path = self._get_metadata_path(new_path)
             if meta_path:
                 try:
@@ -396,15 +396,15 @@ class PluginLoader:
     def _load_from_local_plugins(self) -> int:
         """
         扫描本地 plugins/ 目录
-        1. 加载非 .disabled 的插件（enabled=True）
-        2. 记录 .disabled 的插件（enabled=False，不加载模块）
+        1. 加载非 .disabled 的插件(enabled=True)
+        2. 记录 .disabled 的插件(enabled=False,不加载模块)
         """
         plugins_dir = self._local_plugins_dir
         if not plugins_dir.exists():
             return 0
 
         count_loaded = 0
-        # 清理旧的本地插件记录（保留 Stevedore 的）
+        # 清理旧的本地插件记录(保留 Stevedore 的)
         for pid in list(self._plugins.keys()):
             if self._plugins[pid].get("is_local", False):
                 del self._plugins[pid]
@@ -431,7 +431,7 @@ class PluginLoader:
             if not plugin_id:
                 continue
 
-            # 如果是 .disabled 插件，只记录元数据，不加载模块
+            # 如果是 .disabled 插件,只记录元数据,不加载模块
             if is_disabled:
                 meta_data = {
                     "name": meta.get("name", plugin_id),
@@ -506,16 +506,16 @@ class PluginLoader:
 
     def _load_single_plugin(self, plugin_id: str) -> Optional[Callable]:
         """
-        加载单个插件（用于启用时重新加载）
-        先检查 _plugins 中是否已有记录，若已有且已启用则直接返回
+        加载单个插件(用于启用时重新加载)
+        先检查 _plugins 中是否已有记录,若已有且已启用则直接返回
         """
-        # 如果已经加载且启用，直接返回
+        # 如果已经加载且启用,直接返回
         if plugin_id in self._plugins:
             plugin_info = self._plugins[plugin_id]
             if plugin_info.get("enabled") and plugin_info.get("register"):
                 return plugin_info["register"]
 
-        # 查找插件目录（可能已重命名，但不会是 .disabled）
+        # 查找插件目录(可能已重命名,但不会是 .disabled)
         plugin_dir = self._get_plugin_dir_by_id(plugin_id)
         if not plugin_dir or not plugin_dir.exists():
             logger.error(f"找不到插件目录: {plugin_id}")
@@ -596,7 +596,7 @@ class PluginLoader:
     def fetch_remote_index(self) -> List[Dict]:
         """从远程索引拉取插件列表"""
         if requests is None:
-            logger.error("requests 库未安装，无法拉取远程索引")
+            logger.error("requests 库未安装,无法拉取远程索引")
             return []
         try:
             response = requests.get(self.REMOTE_INDEX_URL, timeout=10, verify=False)
@@ -608,7 +608,7 @@ class PluginLoader:
             return []
 
     def get_plugin_update_status(self, plugin_id: str) -> Optional[str]:
-        """检查插件是否有更新，返回 'update_available' 或 'newer_installed'"""
+        """检查插件是否有更新,返回 'update_available' 或 'newer_installed'"""
         local_meta = self.get_plugin_meta(plugin_id)
         remote_plugins = self.fetch_remote_index()
         for remote in remote_plugins:
@@ -676,10 +676,10 @@ class PluginLoader:
 
     def download_plugin(self, plugin_info: Dict) -> Optional[Path]:
         """
-        下载插件 ZIP 包到临时文件，带进度报告和 SHA256 校验
+        下载插件 ZIP 包到临时文件,带进度报告和 SHA256 校验
         """
         download_url = plugin_info.get("download_url")
-        expected_sha256 = plugin_info.get("sha256")  # 可选，但强烈建议提供
+        expected_sha256 = plugin_info.get("sha256")  # 可选,但强烈建议提供
 
         if not download_url:
             logger.error("插件缺少 download_url")
@@ -705,7 +705,7 @@ class PluginLoader:
                         downloaded += len(chunk)
                         if total_size > 0:
                             progress = int((downloaded / total_size) * 100)
-                            # 发射进度信号（通过 plugin_signals）
+                            # 发射进度信号(通过 plugin_signals)
                             from .signals import plugin_signals
 
                             plugin_signals.install_progress.emit(progress)
@@ -723,7 +723,7 @@ class PluginLoader:
                     return None
                 logger.info(f"SHA256 校验通过: {actual_sha256}")
             else:
-                logger.warning("插件未提供 SHA256，跳过校验")
+                logger.warning("插件未提供 SHA256,跳过校验")
 
             logger.info(f"插件下载成功: {temp_zip}")
             return temp_zip
@@ -735,13 +735,13 @@ class PluginLoader:
             return None
 
     def install_remote_plugin(self, plugin_info: Dict) -> bool:
-        """从远程插件信息安装（下载 + 解压 + 校验）"""
+        """从远程插件信息安装(下载 + 解压 + 校验)"""
         from .signals import plugin_signals
 
         # 重置进度
         plugin_signals.install_progress.emit(0)
 
-        # 1. 下载（带进度）
+        # 1. 下载(带进度)
         zip_path = self.download_plugin(plugin_info)
         if not zip_path:
             plugin_signals.install_progress.emit(-1)  # -1 表示失败
