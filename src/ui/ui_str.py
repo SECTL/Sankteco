@@ -30,14 +30,13 @@ class BasicString:
     # 项目本体信息
     APP_NAME = "Sankteco"
     APP_PLATFORM = "Python"
-    APP_GENERATION = "GENERATION" + " " + str("Dev")
-    APP_VERSION = "VERSION" + " " + str("Dev")
+    APP_GENERATION = "GEN" + " " + str("Dev")
+    APP_VERSION = "VER" + " " + str("Dev")
     APP_VERSION_TYPE = "Dev"
     APP_COPYTYPE = "Copyleft, GPL-3.0, SECTL, 2023~2026."
 
     # 窗口标题信息
     APP_MAINWINDOW_TITLE = f"{APP_NAME} {APP_GENERATION}"
-    APP_DOCSRUI_TITLE = APP_MAINWINDOW_TITLE + ":" + _("文档阅读")
 
 
 class PrayUIString:
@@ -145,6 +144,10 @@ class SettThemeUIString:
     THEME_CARD_TEXT_LIGHT = _("浅色")
     THEME_CARD_TEXT_DARK = _("深色")
     THEME_CARD_TEXT_AUTO = _("跟随系统")
+    
+    # 主题色
+    THEME_COLOR_CARD_TITLE = _("主题色")
+    THEME_COLOR_CARD_CONTEXT = _("更改程序的全局主题色")
 
 
 class SettLangUIString:
@@ -172,6 +175,9 @@ class DocsRUIString:
     # 当前文档
     NOW_DOC_CARD_TITLE = _("当前文档")
     NOW_DOC_CARD_CONTEXT = _("选择要查看的文档")
+    
+    # 窗口显示字段
+    DOCSRUI_TITLE = BasicString.APP_MAINWINDOW_TITLE + ":" + _("文档阅读")
 
 
 class MainUIString:
@@ -205,6 +211,4 @@ class SettWindowString:
     LANGUAGE_UI_NAVNAME = _("语言")
 
     # 窗口显示字段
-    SETTWINDOW_TITLE = f"{BasicString.APP_NAME} {BasicString.APP_GENERATION}: " + _(
-        "首选项"
-    )
+    SETTWINDOW_TITLE = BasicString.APP_MAINWINDOW_TITLE + ":" + _("首选项")

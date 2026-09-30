@@ -11,7 +11,8 @@ from PySide2.QtWidgets import (
 )
 from qfluentwidgets import (
     SubtitleLabel,
-    OptionsSettingCard,
+    ComboBoxSettingCard,
+    ColorSettingCard,
     qconfig,
 )
 from qfluentwidgets import FluentIcon as FI
@@ -47,6 +48,7 @@ class SettThemeUI(QFrame):
         self.widget_list = [
             self.frame_title,
             self.theme_card,
+            self.theme_color_card,
         ]
 
         # 设置布局
@@ -60,7 +62,7 @@ class SettThemeUI(QFrame):
         self.frame_title = SubtitleLabel(SettThemeUIString.FRAME_TITLE)
 
         # 显示主题
-        self.theme_card = OptionsSettingCard(
+        self.theme_card = ComboBoxSettingCard(
             qconfig.themeMode,
             FI.CONSTRACT,
             SettThemeUIString.THEME_CARD_TITLE,
@@ -70,4 +72,12 @@ class SettThemeUI(QFrame):
                 SettThemeUIString.THEME_CARD_TEXT_DARK,
                 SettThemeUIString.THEME_CARD_TEXT_AUTO,
             ],
+        )
+        
+        # 主题色
+        self.theme_color_card = ColorSettingCard(
+            qconfig.themeColor,
+            FI.BRUSH,
+            SettThemeUIString.THEME_COLOR_CARD_TITLE,
+            SettThemeUIString.THEME_COLOR_CARD_CONTEXT,
         )

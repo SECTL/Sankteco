@@ -7,7 +7,7 @@
 from PySide2.QtWidgets import QVBoxLayout
 import qfluentwidgets as qfw
 from qfluentwidgets import FluentIcon as FI
-from ui.ui_str import DocsRUIString, BasicString
+from ui.ui_str import DocsRUIString
 
 
 class NowDocCard(qfw.SettingCard):
@@ -55,7 +55,7 @@ class DocsRUI(qfw.FluentWidget):
 
         # 设置窗口属性
         self.resize(640, 480)
-        self.setWindowTitle(BasicString.APP_DOCSRUI_TITLE)
+        self.setWindowTitle(DocsRUIString.DOCSRUI_TITLE)
 
     def init_widgets(self):
         """初始化控件"""

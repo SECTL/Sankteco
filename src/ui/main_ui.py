@@ -7,7 +7,8 @@
 import asyncio
 
 from PySide2.QtWidgets import QWidget
-from qfluentwidgets import FluentWindow, qconfig, Theme, setTheme, isDarkTheme
+from PySide2.QtGui import QColor
+from qfluentwidgets import FluentWindow, qconfig, Theme, setTheme, setThemeColor, isDarkTheme
 from qfluentwidgets import FluentIcon as FI
 
 from app_const_var import AssetsPathTXT
@@ -152,6 +153,18 @@ class MainWindow(FluentWindow):
         self.setWindowIcon(QIcon(icon_path))
         if self.information_ui.docs_reader_ui is not None:
             self.information_ui.docs_reader_ui.setWindowIcon(QIcon(icon_path))
+        if self.settings_window is not None:
+            self.settings_window.setWindowIcon(QIcon(icon_path))
+            
+    def _apply_theme_color(self, color: QColor) -> None:
+        """读取内置配置项并应用主题色"""
+        
+        # 获取当前主题(Theme 枚举)
+        if color is None:
+            color = qconfig.get(qconfig.themeMode)
+            
+        # 切换主题色
+        setThemeColor(color)
 
     # ========== 信号连接 ==========
 
@@ -160,6 +173,9 @@ class MainWindow(FluentWindow):
 
         # 主题更改信号
         qconfig.themeChanged.connect(self._apply_theme)
+        
+        # 主题色更改信号
+        qconfig.themeColorChanged.connect(self._apply_theme_color)
 
         # 插件信号(如果插件商店已创建)
         if self.plugin_store_page is not None:
@@ -198,6 +214,8 @@ class MainWindow(FluentWindow):
             self.settings_window.setAttribute(Qt.WA_DeleteOnClose, True)  # type: ignore
             # 连接窗口的 destroyed 信号,以便在窗口关闭后清空引用
             self.settings_window.destroyed.connect(self._on_settings_closed)
+            # 更新一次主题以应用图标
+            self._apply_theme()
         self.settings_window.show()
         self.settings_window.raise_()
         self.settings_window.activateWindow()
@@ -301,9 +319,7 @@ class MainWindow(FluentWindow):
                 )
                 self._show_plugin_info(f"插件「{plugin_name}」已启用", "success")
             else:
-                self._show_plugin_info(
-                    f"插件「{plugin_name}」已启用(后台插件)", "info"
-                )
+                self._show_plugin_info(f"插件「{plugin_name}」已启用(后台插件)", "info")
 
         except Exception as e:
             self._show_plugin_info(f"启用插件出错: {e}", "error")
