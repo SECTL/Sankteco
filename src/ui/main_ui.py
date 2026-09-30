@@ -283,7 +283,7 @@ class MainWindow(FluentWindow):
     # ========== 插件核心操作 ==========
 
     def _enable_plugin(self, plugin_id: str, plugin_name: str) -> None:
-        """启用插件：加载并添加到导航栏"""
+        """启用插件:加载并添加到导航栏"""
 
         try:
             register_func = self.plugin_loader.enable_plugin(
@@ -329,7 +329,7 @@ class MainWindow(FluentWindow):
             self._update_card_state(plugin_id, False)
 
     def _disable_plugin(self, plugin_id: str, plugin_name: str) -> None:
-        """禁用插件：从导航栏移除"""
+        """禁用插件:从导航栏移除"""
 
         try:
             self._remove_plugin_page(plugin_id)

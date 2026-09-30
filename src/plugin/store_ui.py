@@ -1,9 +1,9 @@
 """
 插件商店页面
 
-提供插件管理界面,包含两个标签页：
-1. 已安装：显示本地已安装的插件列表,支持启用/禁用/卸载
-2. 在线插件：从远程索引获取可用插件列表,支持安装/更新
+提供插件管理界面,包含两个标签页:
+1. 已安装:显示本地已安装的插件列表,支持启用/禁用/卸载
+2. 在线插件:从远程索引获取可用插件列表,支持安装/更新
 """
 
 from __future__ import annotations
@@ -179,7 +179,7 @@ class PluginStorePage(QWidget):
             self.online_subtitle_label.setText(f"在线插件 ({count})")
 
     def _on_global_refresh(self) -> None:
-        """全局刷新：刷新已安装列表和在线列表"""
+        """全局刷新:刷新已安装列表和在线列表"""
         self._refresh_plugin_list()
         self._online_loaded = False  # 重置状态,强制重新拉取
         self._fetch_online_plugins()

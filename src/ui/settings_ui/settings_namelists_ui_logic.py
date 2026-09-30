@@ -148,7 +148,7 @@ class SettNLUILogic(SettNLUI):
                     namelist_registry.set_current(saved_path)
                     self.load_namelist_from_dataset(dataset)
                 else:
-                    print("导入失败：文件格式不支持或无有效表头")
+                    print("导入失败:文件格式不支持或无有效表头")
 
     def export_namelist(self):
         """导出名单"""

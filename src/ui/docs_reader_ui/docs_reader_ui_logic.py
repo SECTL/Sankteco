@@ -1,5 +1,5 @@
 """
-页面：文档阅读的UI逻辑文件, 
+页面:文档阅读的UI逻辑文件, 
 引用时可作 DocsRUILogic / docs_reader_ui_logic
 """
 
@@ -7,7 +7,7 @@ from ui.docs_reader_ui.docs_reader_ui import DocsRUI
 
 
 class DocsRUILogic(DocsRUI):
-    """页面：文档阅读的UI逻辑类
+    """页面:文档阅读的UI逻辑类
     引用时可作 DocsRUILogic / docs_reader_ui_logic"""
 
     def __init__(self, parent=None):
@@ -66,6 +66,6 @@ class DocsRUILogic(DocsRUI):
             self.docs_browser.setMarkdown(docs_content)
 
         except Exception as e:
-            error_msg = f"# 加载失败\n\n**错误**：{e}"
+            error_msg = f"# 加载失败\n\n**错误**:{e}"
             self.docs_browser.setMarkdown(error_msg)
             print(f"异常: {e}")

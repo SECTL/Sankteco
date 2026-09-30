@@ -31,7 +31,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 class PluginLoader:
     """
     插件加载器
-    支持两种来源：
+    支持两种来源:
     1. Stevedore(生产环境,通过 pip 安装的插件)
     2. 本地 plugins/ 目录(开发环境,直接拷贝文件夹)
     """
@@ -45,7 +45,7 @@ class PluginLoader:
         :param namespace: Stevedore 命名空间
         """
         self.namespace = namespace
-        # 存储所有插件信息：{ plugin_id: { register, meta, module, enabled, is_local, _plugin_dir } }
+        # 存储所有插件信息:{ plugin_id: { register, meta, module, enabled, is_local, _plugin_dir } }
         self._plugins: Dict[str, Dict[str, Any]] = {}
         # 本地插件目录(项目根目录下的 plugins/)
         self._local_plugins_dir = Path(__file__).parent.parent.parent / "plugins"
@@ -231,7 +231,7 @@ class PluginLoader:
 
     def uninstall_plugin(self, plugin_id: str) -> bool:
         """
-        彻底卸载插件：从内存移除 + 删除文件夹
+        彻底卸载插件:从内存移除 + 删除文件夹
         如果是 Stevedore 插件,仅移除记录
         """
         # 先从内存卸载
@@ -301,7 +301,7 @@ class PluginLoader:
 
     def enable_plugin(self, plugin_id: str, context) -> Optional[Callable]:
         """
-        启用插件：
+        启用插件:
         1. 如果存在 .disabled 文件夹,重命名为正常名称
         2. 重新加载插件模块
         :return: register 函数,失败返回 None
@@ -338,7 +338,7 @@ class PluginLoader:
 
     def disable_plugin(self, plugin_id: str) -> bool:
         """
-        禁用插件：
+        禁用插件:
         1. 从内存中卸载模块
         2. 将插件文件夹重命名为 .disabled
         3. 更新 _plugins 记录状态

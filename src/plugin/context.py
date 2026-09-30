@@ -1,5 +1,5 @@
 """
-插件上下文：安全的API接口
+插件上下文:安全的API接口
 """
 
 from typing import Optional, Any, Dict
@@ -22,7 +22,7 @@ class PluginContext(QObject):
         super().__init__()
         self._main_window = main_window
         self._config = config
-        self._plugin_id: Optional[str] = None  # 新增：当前插件ID
+        self._plugin_id: Optional[str] = None  # 新增:当前插件ID
         self._plugin_data: Dict[str, Any] = {}  # 插件私有数据存储
 
     # ---------- 插件 ID 管理 ----------
