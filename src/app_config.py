@@ -6,8 +6,30 @@
 from enum import Enum
 from typing import Type
 
-from qfluentwidgets import QConfig, OptionsConfigItem, OptionsValidator, EnumSerializer
+from qfluentwidgets import (
+    QConfig,
+    OptionsConfigItem,
+    OptionsValidator,
+    EnumSerializer,
+    ConfigItem,
+    ConfigValidator,
+)
+
 from app_const_var import AppConfigString
+
+
+class IntValidator(ConfigValidator):
+    """整数校验器,确保配置值为有效的整数"""
+
+    def validate(self, value) -> bool:
+        """验证值是否为有效的整数"""
+
+        try:
+            # 尝试转换为整数,如果失败则返回 False
+            int(value)
+            return True
+        except (TypeError, ValueError):
+            return False
 
 
 class ValuesMixin:
@@ -41,3 +63,15 @@ class AppConfig(QConfig):
         EnumSerializer(AppEnums.LanguageEnum),
         restart=True,
     )
+
+    # 子页面:调试选项( 首选项 的子页面)配置类
+    # 日志文件保留时长(天)
+    LogFileRetention = ConfigItem("Debug", "LogFileRetention", 30, IntValidator())
+
+    # 错误日志文件保留时长(天)
+    ErrorLogFileRetention = ConfigItem(
+        "Debug", "ErrorLogFileRetention", 60, IntValidator()
+    )
+
+# 创建全局唯一配置项实例
+cfg = AppConfig()

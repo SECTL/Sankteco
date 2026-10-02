@@ -144,7 +144,7 @@ class SettThemeUIString:
     THEME_CARD_TEXT_LIGHT = _("浅色")
     THEME_CARD_TEXT_DARK = _("深色")
     THEME_CARD_TEXT_AUTO = _("跟随系统")
-    
+
     # 主题色
     THEME_COLOR_CARD_TITLE = _("主题色")
     THEME_COLOR_CARD_CONTEXT = _("更改程序的全局主题色")
@@ -169,13 +169,20 @@ class SettLangUIString:
     JOIN_TRANSLATION_HYPERLINK_TEXT = _("跳转")
 
 
+class SettDebugUIString:
+    """首选项-调试选项 子页面字符串"""
+
+    # 页面标题
+    FRAME_TITLE = _("调试选项")
+
+
 class DocsRUIString:
     """信息-文档阅读 孙页面字符串"""
 
     # 当前文档
     NOW_DOC_CARD_TITLE = _("当前文档")
     NOW_DOC_CARD_CONTEXT = _("选择要查看的文档")
-    
+
     # 窗口显示字段
     DOCSRUI_TITLE = BasicString.APP_MAINWINDOW_TITLE + ":" + _("文档阅读")
 
@@ -204,11 +211,13 @@ class SettWindowString:
     NAMELISTS_UI_OBJNAME = "namelists_ui"
     THEME_UI_OBJNAME = "theme_ui"
     LANGUAGE_UI_OBJNAME = "language_ui"
+    DEBUG_UI_OBJNAME = "debug_ui"
 
     # 子页面导航窗口显示字段
     NAMELISTS_UI_NAVNAME = _("名单管理")
     THEME_UI_NAVNAME = _("主题")
     LANGUAGE_UI_NAVNAME = _("语言")
+    DEBUG_UI_NAVNAME = _("调试")
 
     # 窗口显示字段
     SETTWINDOW_TITLE = BasicString.APP_MAINWINDOW_TITLE + ":" + _("首选项")

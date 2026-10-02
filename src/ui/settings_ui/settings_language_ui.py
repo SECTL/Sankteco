@@ -9,19 +9,14 @@ from PySide2.QtWidgets import (
     QLayout,
 )
 from qfluentwidgets import (
-    qconfig,
     SubtitleLabel,
     ComboBoxSettingCard,
     HyperlinkCard,
 )
 from qfluentwidgets import FluentIcon as FI
-from app_const_var import AssetsPathTXT, WebUrl
+from app_const_var import WebUrl
 from ui.ui_str import SettLangUIString
 from app_config import AppConfig
-
-# 加载配置文件
-sett_lang_ui_cfg = AppConfig()
-qconfig.load(AssetsPathTXT.APP_CONFIG, sett_lang_ui_cfg)
 
 
 def set_widget_to_layout(wlist: list, layout: QLayout):
@@ -35,10 +30,13 @@ class SettLangUI(QFrame):
     此页面包含了程序显示语言的可调整设置选项,
     引用时可作 SettLangUI / settings_language_ui"""
 
-    def __init__(self, parent=None):
+    def __init__(self, cfg: AppConfig, parent=None):
         super().__init__(parent)
 
         from PySide2.QtWidgets import QVBoxLayout
+        
+        # 初始化配置项
+        self.cfg = cfg
 
         # 初始化垂直布局
         self.vboxlayout = QVBoxLayout(self)
@@ -66,7 +64,7 @@ class SettLangUI(QFrame):
 
         # 语言选择
         self.screen_language = ComboBoxSettingCard(
-            sett_lang_ui_cfg.Language,
+            self.cfg.Language,
             FI.LANGUAGE,
             SettLangUIString.SCREEN_LANGUAGE_TITLE,
             SettLangUIString.SCREEN_LANGUAGE_CONTEXT,

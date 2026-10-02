@@ -16,6 +16,7 @@ from qfluentwidgets import (
     qconfig,
 )
 from qfluentwidgets import FluentIcon as FI
+
 from ui.ui_str import SettThemeUIString
 from app_config import AppConfig
 
@@ -73,7 +74,7 @@ class SettThemeUI(QFrame):
                 SettThemeUIString.THEME_CARD_TEXT_AUTO,
             ],
         )
-        
+
         # 主题色
         self.theme_color_card = ColorSettingCard(
             qconfig.themeColor,

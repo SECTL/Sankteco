@@ -6,13 +6,21 @@
 
 import asyncio
 
+from loguru import logger # type: ignore
 from PySide2.QtWidgets import QWidget
 from PySide2.QtGui import QColor
-from qfluentwidgets import FluentWindow, qconfig, Theme, setTheme, setThemeColor, isDarkTheme
+from qfluentwidgets import (
+    FluentWindow,
+    Theme,
+    qconfig,
+    setTheme,
+    setThemeColor,
+    isDarkTheme,
+)
 from qfluentwidgets import FluentIcon as FI
 
 from app_const_var import AssetsPathTXT
-from app_config import AppConfig
+from app_config import cfg
 from ui.ui_str import MainUIString, BasicString
 
 # 插件相关导入
@@ -30,8 +38,7 @@ class MainWindow(FluentWindow):
         super().__init__()
 
         # 加载配置文件
-        self.cfg = AppConfig()
-        qconfig.load(AssetsPathTXT.APP_CONFIG, self.cfg)
+        self.cfg = cfg
 
         # 声明插件相关属性
         self.plugin_context = None
@@ -155,14 +162,14 @@ class MainWindow(FluentWindow):
             self.information_ui.docs_reader_ui.setWindowIcon(QIcon(icon_path))
         if self.settings_window is not None:
             self.settings_window.setWindowIcon(QIcon(icon_path))
-            
+
     def _apply_theme_color(self, color: QColor) -> None:
         """读取内置配置项并应用主题色"""
-        
+
         # 获取当前主题(Theme 枚举)
         if color is None:
             color = qconfig.get(qconfig.themeMode)
-            
+
         # 切换主题色
         setThemeColor(color)
 
@@ -173,7 +180,7 @@ class MainWindow(FluentWindow):
 
         # 主题更改信号
         qconfig.themeChanged.connect(self._apply_theme)
-        
+
         # 主题色更改信号
         qconfig.themeColorChanged.connect(self._apply_theme_color)
 
@@ -384,7 +391,7 @@ class MainWindow(FluentWindow):
             return False
 
         if hasattr(self, "removeInterface"):
-            self.removeInterface(widget, isDelete=True)
+            self.removeInterface(widget, isDelete=True) # type: ignore
             print(f"已移除插件页面: {plugin_id}")
             return True
 
@@ -398,9 +405,9 @@ class MainWindow(FluentWindow):
                 break
 
         if stacked:
-            idx = stacked.indexOf(widget)
+            idx = stacked.indexOf(widget) # type: ignore
             if idx != -1:
-                stacked.removeWidget(widget)
+                stacked.removeWidget(widget) # type: ignore
                 widget.deleteLater()
                 print(f"已从堆叠中移除插件页面: {plugin_id}")
                 return True

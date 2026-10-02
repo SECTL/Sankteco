@@ -6,11 +6,10 @@
 
 import asyncio
 
-from qfluentwidgets import FluentWindow, qconfig
+from qfluentwidgets import FluentWindow
 from qfluentwidgets import FluentIcon as FI
 
-from app_const_var import AssetsPathTXT
-from app_config import AppConfig
+from app_config import cfg
 from ui.ui_str import SettWindowString
 
 
@@ -22,8 +21,7 @@ class SettWindow(FluentWindow):
         super().__init__()
 
         # 加载配置文件
-        self.cfg = AppConfig()
-        qconfig.load(AssetsPathTXT.APP_CONFIG, self.cfg)
+        self.cfg = cfg
 
         # 运行导入子页面的asyncio程序
         asyncio.run(self.import_ui())
@@ -54,8 +52,15 @@ class SettWindow(FluentWindow):
         """导入并重命名 语言 子页面的协程"""
         from ui.settings_ui.settings_language_ui import SettLangUI
 
-        self.language_ui = SettLangUI(self)
+        self.language_ui = SettLangUI(self.cfg, self)
         self.language_ui.setObjectName(SettWindowString.LANGUAGE_UI_OBJNAME)
+
+    async def import_debug_ui(self) -> None:
+        """导入并重命名 调试 子页面的协程"""
+        from ui.settings_ui.settings_debug_ui import SettDebugUI
+
+        self.debug_ui = SettDebugUI(self.cfg, self)
+        self.debug_ui.setObjectName(SettWindowString.DEBUG_UI_OBJNAME)
 
     async def import_ui(self) -> None:
         """导入子页面的基础函数"""
@@ -63,6 +68,7 @@ class SettWindow(FluentWindow):
             self.import_namelists_ui(),
             self.import_theme_ui(),
             self.import_language_ui(),
+            self.import_debug_ui(),
         )
 
     # ========== 导航栏初始化 ==========
@@ -93,6 +99,14 @@ class SettWindow(FluentWindow):
             FI.LANGUAGE,
             SettWindowString.LANGUAGE_UI_NAVNAME,
             NavigationItemPosition.TOP,
+        )
+
+        # 调试
+        self.addSubInterface(
+            self.debug_ui,
+            FI.IOT,
+            SettWindowString.DEBUG_UI_NAVNAME,
+            NavigationItemPosition.BOTTOM,
         )
 
     # ========== 窗口设置 ==========
