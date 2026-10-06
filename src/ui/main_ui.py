@@ -6,7 +6,7 @@
 
 import asyncio
 
-from loguru import logger # type: ignore
+from loguru import logger  # type: ignore
 from PySide2.QtWidgets import QWidget
 from PySide2.QtGui import QColor
 from qfluentwidgets import (
@@ -17,11 +17,11 @@ from qfluentwidgets import (
     setThemeColor,
     isDarkTheme,
 )
-from qfluentwidgets import FluentIcon as FI
 
 from app_const_var import AssetsPathTXT
 from app_config import cfg
 from ui.ui_str import MainUIString, BasicString
+from fluent_icons import FluentIcons as FI
 
 # 插件相关导入
 from plugin.loader import PluginLoader
@@ -86,7 +86,7 @@ class MainWindow(FluentWindow):
 
         # 创建一个按钮
         self.settings_button = NavigationPushButton(
-            FI.SETTING,
+            FI.icon("settings"),
             MainUIString.SUBPAGE_SETTINGS_NAVNAME,
             isSelectable=False,  # 不可选中(因为不切换页面)
             parent=self.navigationInterface,
@@ -110,13 +110,13 @@ class MainWindow(FluentWindow):
 
         self.addSubInterface(
             self.pray_ui,
-            FI.QUESTION,
+            FI.icon("person_question_mark"),
             MainUIString.SUBPAGE_PRAY_NAVNAME,
             NavigationItemPosition.TOP,
         )
         self.addSubInterface(
             self.plugin_store_page,  # type: ignore
-            FI.APPLICATION,
+            FI.icon("apps"),
             "插件商店",
             NavigationItemPosition.BOTTOM,
         )
@@ -127,7 +127,7 @@ class MainWindow(FluentWindow):
         )
         self.addSubInterface(
             self.information_ui,
-            FI.INFO,
+            FI.icon("info"),
             MainUIString.SUBPAGE_INFORMATION_NAVNAME,
             NavigationItemPosition.BOTTOM,
         )
@@ -199,7 +199,7 @@ class MainWindow(FluentWindow):
             self.plugin_store_page.plugin_update_requested.connect(
                 self._on_plugin_update
             )
-            print("插件信号已连接")
+            logger.success("插件信号已连接")
 
         # 全局插件信号(用于跨组件通信)
         plugin_signals.plugin_installed.connect(self._on_plugin_installed)
@@ -237,27 +237,27 @@ class MainWindow(FluentWindow):
     def _init_plugin_system(self) -> None:
         """初始化插件系统(加载插件、创建商店页面、注册插件)"""
 
-        # 1. 创建插件上下文
+        # 创建插件上下文
         self.plugin_context = PluginContext(self, self.cfg)
 
-        # 2. 加载所有插件
+        # 加载所有插件
         loader = PluginLoader()
         loaded_count = loader.load_all_plugins()
         self.plugin_loader = loader
 
-        # 3. 创建插件商店页面并添加到导航栏
+        # 创建插件商店页面并添加到导航栏
         self.plugin_store_page = PluginStorePage(loader, self)
         self.plugin_store_page.setObjectName("plugin_store_page")
 
-        # 4. 初始化导航栏(包含商店页面)
+        # 初始化导航栏(包含商店页面)
         self.init_navigation()
 
-        # 5. 如果没有插件,提前返回
+        # 如果没有插件,提前返回
         if loaded_count == 0:
-            print("没有发现任何插件")
+            logger.warning("没有发现任何插件")
             return
 
-        # 6. 注册每个已启用的插件到主窗口
+        # 注册每个已启用的插件到主窗口
         for plugin_id in loader.get_all_plugin_ids():
             register_func = loader.get_register_func(plugin_id)
             if not register_func:
@@ -275,16 +275,18 @@ class MainWindow(FluentWindow):
                     widget.setObjectName(f"plugin_page_{plugin_id}")
                     self.plugin_context.add_page(widget, icon, name)
                     self.plugin_widgets[plugin_id] = widget
-                    print(f"插件 '{name}' 已添加到导航栏")
+                    logger.info(f"插件 '{name}' 已添加到导航栏")
                 else:
-                    print(f"插件 {plugin_id} 未返回有效的 QWidget(可能为后台插件)")
+                    logger.info(
+                        f"插件 {plugin_id} 未返回有效的 QWidget(可能为后台插件)"
+                    )
             except Exception as e:
-                print(f"注册插件 {plugin_id} 时发生错误: {e}")
                 import traceback
 
-                traceback.print_exc()
+                logger.error(f"注册插件 {plugin_id} 时发生错误: {e}")
+                logger.exception(traceback.format_exc)
 
-        # 7. 同步插件商店卡片状态
+        # 同步插件商店卡片状态
         self.plugin_store_page._sync_all_card_states()
 
     # ========== 插件核心操作 ==========
@@ -299,6 +301,7 @@ class MainWindow(FluentWindow):
             if not register_func:
                 self._show_plugin_info(f"插件「{plugin_name}」加载失败", "error")
                 self._update_card_state(plugin_id, False)
+                logger.error(f"插件「{plugin_name}」加载失败")
                 return
 
             self.plugin_context.set_plugin_id(plugin_id)
@@ -312,27 +315,30 @@ class MainWindow(FluentWindow):
                 widget.setObjectName(f"plugin_page_{plugin_id}")
                 self.plugin_widgets[plugin_id] = widget
 
-                from qfluentwidgets import NavigationItemPosition, FluentIcon
+                from qfluentwidgets import NavigationItemPosition
 
                 try:
                     icon_enum = getattr(
-                        FluentIcon, icon.upper(), FluentIcon.APPLICATION
+                        FI, icon.upper(), FI.icon("apps")
                     )
                 except:
-                    icon_enum = FluentIcon.APPLICATION
+                    icon_enum = FI.icon("apps")
 
                 self.addSubInterface(
                     widget, icon_enum, name, NavigationItemPosition.TOP
                 )
                 self._show_plugin_info(f"插件「{plugin_name}」已启用", "success")
+                logger.success(f"插件「{plugin_name}」已启用")
             else:
                 self._show_plugin_info(f"插件「{plugin_name}」已启用(后台插件)", "info")
+                logger.info(f"插件「{plugin_name}」已启用(后台插件)")
 
         except Exception as e:
-            self._show_plugin_info(f"启用插件出错: {e}", "error")
             import traceback
 
-            traceback.print_exc()
+            self._show_plugin_info(f"启用插件出错: {e}", "error")
+            logger.error(f"启用插件出错: {e}")
+            logger.exception(traceback.format_exc)
             self._update_card_state(plugin_id, False)
 
     def _disable_plugin(self, plugin_id: str, plugin_name: str) -> None:
@@ -342,8 +348,13 @@ class MainWindow(FluentWindow):
             self._remove_plugin_page(plugin_id)
             self.plugin_loader.disable_plugin(plugin_id)
             self._show_plugin_info(f"插件「{plugin_name}」已禁用", "success")
+            logger.success(f"插件「{plugin_name}」已禁用")
         except Exception as e:
+            import traceback
+
             self._show_plugin_info(f"禁用插件出错: {e}", "error")
+            logger.error(f"禁用插件出错: {e}")
+            logger.exception(traceback.format_exc)
             self._update_card_state(plugin_id, True)
 
     def _uninstall_plugin(self, plugin_id: str) -> None:
@@ -352,10 +363,12 @@ class MainWindow(FluentWindow):
         self._remove_plugin_page(plugin_id)
         success = self.plugin_loader.uninstall_plugin(plugin_id)
         if success:
-            self._show_plugin_info(f"插件已卸载", "success")
+            self._show_plugin_info(f"插件「{plugin_id}」已卸载", "success")
+            logger.success(f"插件「{plugin_id}」已卸载")
             self._refresh_store()
         else:
-            self._show_plugin_info(f"卸载失败,请检查日志", "error")
+            self._show_plugin_info(f"卸载插件「{plugin_id}」失败,请检查日志", "error")
+            logger.error(f"卸载插件「{plugin_id}」失败")
 
     def _load_single_plugin(self, plugin_id: str) -> None:
         """加载单个插件(用于安装后自动加载)"""
@@ -371,7 +384,7 @@ class MainWindow(FluentWindow):
                 widget.setObjectName(f"plugin_page_{plugin_id}")
                 self.plugin_context.add_page(widget, icon, name)
                 self.plugin_widgets[plugin_id] = widget
-                print(f"插件 '{name}' 已添加到导航栏")
+                logger.info(f"插件「{name}」已添加到导航栏")
 
     # ========== 插件UI辅助 ==========
 
@@ -387,12 +400,12 @@ class MainWindow(FluentWindow):
                     break
 
         if not widget:
-            print(f"未找到插件 {plugin_id} 的页面")
+            logger.warning(f"未找到插件 {plugin_id} 的页面")
             return False
 
         if hasattr(self, "removeInterface"):
-            self.removeInterface(widget, isDelete=True) # type: ignore
-            print(f"已移除插件页面: {plugin_id}")
+            self.removeInterface(widget, isDelete=True)  # type: ignore
+            logger.success(f"已移除插件页面: {plugin_id}")
             return True
 
         # 手动移除兼容方案
@@ -405,11 +418,11 @@ class MainWindow(FluentWindow):
                 break
 
         if stacked:
-            idx = stacked.indexOf(widget) # type: ignore
+            idx = stacked.indexOf(widget)  # type: ignore
             if idx != -1:
-                stacked.removeWidget(widget) # type: ignore
+                stacked.removeWidget(widget)  # type: ignore
                 widget.deleteLater()
-                print(f"已从堆叠中移除插件页面: {plugin_id}")
+                logger.success(f"已从堆叠中移除插件页面: {plugin_id}")
                 return True
 
         return False

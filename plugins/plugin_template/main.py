@@ -19,10 +19,11 @@ def register(context):
     :return: 返回一个 QWidget 实例（作为页面），或者返回 None（纯后台插件）
     """
     from PySide2.QtWidgets import QWidget, QLabel, QVBoxLayout
+    from loguru import logger
 
     # 获取插件专属数据目录
     data_dir = context.get_plugin_data_dir()
-    print(f"插件数据目录: {data_dir}")
+    logger.info(f"插件数据目录: {data_dir}")
 
     widget = QWidget()
     widget.setObjectName("demo_plugin_page")

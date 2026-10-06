@@ -4,9 +4,12 @@
 
 from typing import Optional, Any, Dict
 from pathlib import Path
+
+from loguru import logger
 from PySide2.QtCore import QObject, Signal, QStandardPaths
 from PySide2.QtWidgets import QWidget
-from qfluentwidgets import FluentIcon
+
+from fluent_icons import FluentIcons as FI
 
 
 class PluginContext(QObject):
@@ -20,6 +23,7 @@ class PluginContext(QObject):
 
     def __init__(self, main_window: "MainWindow", config: "AppConfig"):  # type: ignore
         super().__init__()
+        
         self._main_window = main_window
         self._config = config
         self._plugin_id: Optional[str] = None  # 新增:当前插件ID
@@ -30,10 +34,12 @@ class PluginContext(QObject):
         """
         设置当前操作的插件ID(由主程序在调用 register 前调用)
         """
+        
         self._plugin_id = plugin_id
 
     def get_plugin_id(self) -> Optional[str]:
         """获取当前插件的ID"""
+        
         return self._plugin_id
 
     # ---------- 数据目录管理 ----------
@@ -42,6 +48,7 @@ class PluginContext(QObject):
         获取当前插件的数据存储目录
         需要先调用 set_plugin_id 设置插件ID
         """
+        
         if not self._plugin_id:
             return None
 
@@ -63,6 +70,7 @@ class PluginContext(QObject):
         """
         添加插件页面到主窗口导航栏
         """
+        
         from qfluentwidgets import NavigationItemPosition
 
         # 确保 widget 有唯一的 objectName(用于路由)
@@ -76,11 +84,11 @@ class PluginContext(QObject):
         }
         position_enum = pos_map.get(position, NavigationItemPosition.BOTTOM)
 
-        # 尝试从 FluentIcon 获取图标
+        # 尝试从 FI 获取图标
         try:
-            icon_enum = getattr(FluentIcon, icon.upper(), FluentIcon.APPLICATION)
+            icon_enum = getattr(FI, icon.upper(), FI.icon("apps"))
         except:
-            icon_enum = FluentIcon.APPLICATION
+            icon_enum = FI.icon("apps")
 
         # 调用主窗口的 addSubInterface
         self._main_window.addSubInterface(
@@ -89,23 +97,28 @@ class PluginContext(QObject):
 
     def switch_to(self, widget: QWidget):
         """切换到指定页面"""
+        
         self._main_window.switchTo(widget)
 
     # ---------- 配置访问 API ----------
     def get_config_value(self, key: str):
         """安全地读取配置值(只读)"""
+        
         return getattr(self._config, key, None)
 
     # ---------- 日志 API ----------
     def log(self, message: str, level: str = "INFO"):
         """记录插件日志"""
-        print(f"[Plugin] {level}: {message}")
+        
+        logger.log(level, message)
 
     # ---------- 插件私有存储 ----------
     def set_data(self, key: str, value: Any):
         """存储插件私有数据(不会持久化)"""
+        
         self._plugin_data[key] = value
 
     def get_data(self, key: str, default=None):
         """获取插件私有数据"""
+        
         return self._plugin_data.get(key, default)

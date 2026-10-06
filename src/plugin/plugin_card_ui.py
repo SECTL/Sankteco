@@ -9,11 +9,11 @@
 from __future__ import annotations
 
 from typing import Optional, Dict
+
 from PySide2.QtCore import Signal
 from PySide2.QtWidgets import QWidget
 from qfluentwidgets import (
     SettingCard,
-    FluentIcon,
     PushButton,
     SwitchButton,
     ToolTipFilter,
@@ -21,6 +21,8 @@ from qfluentwidgets import (
     BodyLabel,
     ProgressRing,
 )
+
+from fluent_icons import FluentIcons as FI
 
 
 class PluginCard(SettingCard):
@@ -43,10 +45,11 @@ class PluginCard(SettingCard):
         is_active: bool = True,
         parent: Optional[QWidget] = None,
     ):
+        
         try:
-            icon_enum = getattr(FluentIcon, icon.upper(), FluentIcon.APPLICATION)
+            icon_enum = getattr(FI, icon.upper(), FI.icon("apps"))
         except:
-            icon_enum = FluentIcon.APPLICATION
+            icon_enum = FI.icon("apps")
 
         super().__init__(icon_enum, name, description, parent)
 
@@ -71,7 +74,7 @@ class PluginCard(SettingCard):
         self.toggle_btn.checkedChanged.connect(self._on_toggle)
 
         # 卸载按钮(无固定宽度)
-        self.uninstall_btn = PushButton(FluentIcon.DELETE, "卸载", self)
+        self.uninstall_btn = PushButton(FI.icon("delete"), "卸载", self)
         self.uninstall_btn.clicked.connect(self._on_uninstall)
 
         # 添加到布局
@@ -87,13 +90,16 @@ class PluginCard(SettingCard):
         self.installEventFilter(ToolTipFilter(self))
 
     def _on_toggle(self, checked: bool) -> None:
+        
         self.is_active = checked
         self.toggle_requested.emit(self.plugin_id, checked)
 
     def _on_uninstall(self) -> None:
+        
         self.uninstall_requested.emit(self.plugin_id)
 
     def set_active(self, active: bool) -> None:
+        
         self.is_active = active
         self.toggle_btn.setChecked(active)
 
@@ -114,17 +120,18 @@ class OnlinePluginCard(SettingCard):
         has_update: bool,
         parent: Optional[QWidget] = None,
     ):
+        
         plugin_id = plugin_info.get("id", "")
         name = plugin_info.get("name", "未命名插件")
         description = plugin_info.get("description", "")
         author = plugin_info.get("author", "未知")
         icon = plugin_info.get("icon", "APPLICATION")
         version = plugin_info.get("version", "1.0.0")
-
+            
         try:
-            icon_enum = getattr(FluentIcon, icon.upper(), FluentIcon.APPLICATION)
+            icon_enum = getattr(FI, icon.upper(), FI.icon("apps"))
         except:
-            icon_enum = FluentIcon.APPLICATION
+            icon_enum = FI.icon("apps")
 
         super().__init__(icon_enum, name, description, parent)
 
@@ -168,6 +175,7 @@ class OnlinePluginCard(SettingCard):
 
     def _create_action_button(self):
         """根据状态创建操作按钮"""
+        
         if self.has_update:
             btn = PrimaryPushButton("更新", self)
             btn.clicked.connect(self._on_update)
@@ -182,6 +190,7 @@ class OnlinePluginCard(SettingCard):
             return btn
 
     def _on_install(self) -> None:
+        
         if self._is_installing:
             return
         self._is_installing = True
@@ -191,6 +200,7 @@ class OnlinePluginCard(SettingCard):
         self.install_requested.emit(self.plugin_id)
 
     def _on_update(self) -> None:
+        
         if self._is_installing:
             return
         self._is_installing = True
@@ -204,6 +214,7 @@ class OnlinePluginCard(SettingCard):
         更新进度环
         :param value: 0-100
         """
+        
         if value < 0:
             # 安装失败,恢复按钮状态
             self._is_installing = False
@@ -227,6 +238,7 @@ class OnlinePluginCard(SettingCard):
 
     def _replace_action_button(self) -> None:
         """替换操作按钮(安装完成后由进度环切换为"已安装"按钮)"""
+        
         # 移除旧的按钮
         self.hBoxLayout.removeWidget(self.action_btn)
         self.action_btn.deleteLater()
@@ -240,4 +252,5 @@ class OnlinePluginCard(SettingCard):
 
     def set_installing_state(self, is_installing: bool) -> None:
         """外部设置安装状态(用于恢复)"""
+        
         self._is_installing = is_installing

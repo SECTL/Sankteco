@@ -7,10 +7,10 @@
 import asyncio
 
 from qfluentwidgets import FluentWindow
-from qfluentwidgets import FluentIcon as FI
 
 from app_config import cfg
 from ui.ui_str import SettWindowString
+from fluent_icons import FluentIcons as FI
 
 
 class SettWindow(FluentWindow):
@@ -80,7 +80,7 @@ class SettWindow(FluentWindow):
         # 名单管理
         self.addSubInterface(
             self.namelists_ui,
-            FI.PEOPLE,
+            FI.icon("people_list"),
             SettWindowString.NAMELISTS_UI_NAVNAME,
             NavigationItemPosition.TOP,
         )
@@ -88,7 +88,7 @@ class SettWindow(FluentWindow):
         # 主题
         self.addSubInterface(
             self.theme_ui,
-            FI.CONSTRACT,
+            FI.icon("dark_theme"),
             SettWindowString.THEME_UI_NAVNAME,
             NavigationItemPosition.TOP,
         )
@@ -96,7 +96,7 @@ class SettWindow(FluentWindow):
         # 语言
         self.addSubInterface(
             self.language_ui,
-            FI.LANGUAGE,
+            FI.icon("local_language"),
             SettWindowString.LANGUAGE_UI_NAVNAME,
             NavigationItemPosition.TOP,
         )
@@ -104,7 +104,7 @@ class SettWindow(FluentWindow):
         # 调试
         self.addSubInterface(
             self.debug_ui,
-            FI.IOT,
+            FI.icon("bug"),
             SettWindowString.DEBUG_UI_NAVNAME,
             NavigationItemPosition.BOTTOM,
         )

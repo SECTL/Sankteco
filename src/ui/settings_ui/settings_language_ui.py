@@ -13,10 +13,11 @@ from qfluentwidgets import (
     ComboBoxSettingCard,
     HyperlinkCard,
 )
-from qfluentwidgets import FluentIcon as FI
+
 from app_const_var import WebUrl
 from ui.ui_str import SettLangUIString
 from app_config import AppConfig
+from fluent_icons import FluentIcons as FI
 
 
 def set_widget_to_layout(wlist: list, layout: QLayout):
@@ -34,7 +35,7 @@ class SettLangUI(QFrame):
         super().__init__(parent)
 
         from PySide2.QtWidgets import QVBoxLayout
-        
+
         # 初始化配置项
         self.cfg = cfg
 
@@ -65,7 +66,7 @@ class SettLangUI(QFrame):
         # 语言选择
         self.screen_language = ComboBoxSettingCard(
             self.cfg.Language,
-            FI.LANGUAGE,
+            FI.icon("local_language"),
             SettLangUIString.SCREEN_LANGUAGE_TITLE,
             SettLangUIString.SCREEN_LANGUAGE_CONTEXT,
             [
@@ -78,7 +79,7 @@ class SettLangUI(QFrame):
         self.join_translation = HyperlinkCard(
             WebUrl.JOIN_TRANSLATION_LINK,
             SettLangUIString.JOIN_TRANSLATION_HYPERLINK_TEXT,
-            FI.CLOUD,
+            FI.icon("translate"),
             SettLangUIString.JOIN_TRANSLATION_TITLE,
             SettLangUIString.JOIN_TRANSLATION_CONTEXT,
         )

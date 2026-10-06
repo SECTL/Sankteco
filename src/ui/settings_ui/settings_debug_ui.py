@@ -11,6 +11,7 @@ from PySide2.QtWidgets import (
     QVBoxLayout,
 )
 from PySide2.QtCore import Qt
+from PySide2.QtGui import QIcon
 from qfluentwidgets import (
     qconfig,
     SubtitleLabel,
@@ -19,11 +20,11 @@ from qfluentwidgets import (
     SettingCardGroup,
     SettingCard,
 )
-from qfluentwidgets import FluentIcon as FI
 
 from ui.ui_str import SettDebugUIString
 from ui.log_panel import QtLogSink
 from app_config import AppConfig
+from fluent_icons import FluentIcons as FI
 
 
 def set_widget_to_layout(wlist: list, layout: QLayout):
@@ -35,7 +36,7 @@ def set_widget_to_layout(wlist: list, layout: QLayout):
 class IntSettingCard(SettingCard):
     """带单行输入框的设置卡，绑定到整数类型的 ConfigItem"""
 
-    def __init__(self, configItem, icon: FI, title: str, content=None, parent=None):
+    def __init__(self, configItem, icon: QIcon, title: str, content=None, parent=None):
         super().__init__(icon, title, content, parent)
 
         self.configItem = configItem
@@ -111,10 +112,12 @@ class SettDebugUI(QFrame):
 
         # 对象销毁时卸载 sink,避免往已销毁的控件写日志
         self.destroyed.connect(self._detach_sink)
-        
+
         # 链接信号
         self.cfg.LogFileRetention.valueChanged.connect(self._on_log_retention_changed)
-        self.cfg.ErrorLogFileRetention.valueChanged.connect(self._on_log_retention_changed)
+        self.cfg.ErrorLogFileRetention.valueChanged.connect(
+            self._on_log_retention_changed
+        )
 
     def init_widgets(self):
         """初始化控件"""
@@ -130,7 +133,7 @@ class SettDebugUI(QFrame):
         # 日志文件保留时长(天)
         self.log_file_retention = IntSettingCard(
             self.cfg.LogFileRetention,
-            FI.HISTORY,
+            FI.icon("history"),
             "日志文件保留时长(天)",
             "键入一个整数以确定一般日志文件的最大保留时长(以天为单位)",
         )
@@ -138,7 +141,7 @@ class SettDebugUI(QFrame):
         # 错误日志文件保留时长(天)
         self.error_log_file_retention = IntSettingCard(
             self.cfg.ErrorLogFileRetention,
-            FI.HISTORY,
+            FI.icon("history"),
             "错误日志文件保留时长(天)",
             "键入一个整数以确定错误日志文件的最大保留时长(以天为单位)",
         )
@@ -163,11 +166,12 @@ class SettDebugUI(QFrame):
             self.qt_sink.detach()
             self.qt_sink = None
             logger.info("调试页面已销毁,停止接收实时日志")
-            
+
     def _on_log_retention_changed(self, *_):
         """配置变化后,重建文件 sink"""
-        
+
         from logger_config import reconfigure_file_sinks
+
         reconfigure_file_sinks(
             log_days=self.cfg.get(self.cfg.LogFileRetention),
             err_days=self.cfg.get(self.cfg.ErrorLogFileRetention),

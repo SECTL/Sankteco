@@ -10,9 +10,10 @@ from PySide2.QtWidgets import (
 )
 from PySide2.QtCore import Qt
 import qfluentwidgets as qfw
-from qfluentwidgets import FluentIcon as FI
+
 from app_const_var import AssetsPathTXT
 from ui.ui_str import InfoUIString, BasicString
+from fluent_icons import FluentIcons as FI
 
 
 class ShowInfobar:
@@ -85,21 +86,21 @@ class SupportCardGroup(qfw.GroupHeaderCardWidget):
 
         # 帮助文档按钮
         self.offline_document_button = qfw.PushButton(
-            icon=FI.DOCUMENT, text=InfoUIString.SUPPTCARD_OFFLINEDOCBUTTON
+            icon=FI.icon("document"), text=InfoUIString.SUPPTCARD_OFFLINEDOCBUTTON
         )
         self.online_document_button = qfw.PushButton(
-            icon=FI.SEARCH, text=InfoUIString.SUPPTCARD_ONLINEDOCBUTTON
+            icon=FI.icon("search"), text=InfoUIString.SUPPTCARD_ONLINEDOCBUTTON
         )
 
         # 添加分组到组件中
         self.addGroup(
-            FI.DOCUMENT,
+            FI.icon("document"),
             InfoUIString.SUPPTCARD_OFFLINEDOCGROUPTITLE,
             InfoUIString.SUPPTCARD_OFFLINEDOCGROUPCONTEXT,
             self.offline_document_button,
         )
         group = self.addGroup(
-            FI.GLOBE,
+            FI.icon("globe_search"),
             InfoUIString.SUPPTCARD_ONLINEDOCGROUPTITLE,
             InfoUIString.SUPPTCARD_ONLINEDOCGROUPCONTEXT,
             self.online_document_button,

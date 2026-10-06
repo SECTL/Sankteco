@@ -6,8 +6,9 @@
 
 from PySide2.QtWidgets import QVBoxLayout
 import qfluentwidgets as qfw
-from qfluentwidgets import FluentIcon as FI
+
 from ui.ui_str import DocsRUIString
+from fluent_icons import FluentIcons as FI
 
 
 class NowDocCard(qfw.SettingCard):
@@ -17,7 +18,7 @@ class NowDocCard(qfw.SettingCard):
 
     def __init__(self, parent=None):
         super().__init__(
-            FI.DOCUMENT,
+            FI.icon("document"),
             DocsRUIString.NOW_DOC_CARD_TITLE,
             DocsRUIString.NOW_DOC_CARD_CONTEXT,
             parent,

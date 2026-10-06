@@ -73,5 +73,6 @@ class AppConfig(QConfig):
         "Debug", "ErrorLogFileRetention", 60, IntValidator()
     )
 
+
 # 创建全局唯一配置项实例
 cfg = AppConfig()

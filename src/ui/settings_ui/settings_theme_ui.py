@@ -15,10 +15,10 @@ from qfluentwidgets import (
     ColorSettingCard,
     qconfig,
 )
-from qfluentwidgets import FluentIcon as FI
 
 from ui.ui_str import SettThemeUIString
 from app_config import AppConfig
+from fluent_icons import FluentIcons as FI
 
 
 def set_widget_to_layout(wlist: list, layout: QLayout):
@@ -65,7 +65,7 @@ class SettThemeUI(QFrame):
         # 显示主题
         self.theme_card = ComboBoxSettingCard(
             qconfig.themeMode,
-            FI.CONSTRACT,
+            FI.icon("dark_theme"),
             SettThemeUIString.THEME_CARD_TITLE,
             SettThemeUIString.THEME_CARD_CONTEXT,
             texts=[
@@ -78,7 +78,7 @@ class SettThemeUI(QFrame):
         # 主题色
         self.theme_color_card = ColorSettingCard(
             qconfig.themeColor,
-            FI.BRUSH,
+            FI.icon("color"),
             SettThemeUIString.THEME_COLOR_CARD_TITLE,
             SettThemeUIString.THEME_COLOR_CARD_CONTEXT,
         )

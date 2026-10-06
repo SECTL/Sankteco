@@ -12,7 +12,6 @@ from typing import Optional, List, Dict
 from PySide2.QtWidgets import QWidget, QVBoxLayout, QStackedWidget
 from PySide2.QtCore import Qt, Signal
 from qfluentwidgets import (
-    FluentIcon,
     SubtitleLabel,
     SubtitleLabel,
     PrimaryPushButton,
@@ -24,6 +23,7 @@ from .signals import plugin_signals
 
 from .loader import PluginLoader
 from .plugin_card_ui import PluginCard, OnlinePluginCard
+from fluent_icons import FluentIcons as FI
 
 
 class PluginStorePage(QWidget):
@@ -65,7 +65,7 @@ class PluginStorePage(QWidget):
 
         title_layout.addStretch()
 
-        self.global_refresh_btn = PrimaryPushButton(FluentIcon.UPDATE, "刷新全部", self)
+        self.global_refresh_btn = PrimaryPushButton(FI.icon("arrow_sync_circle"), "刷新全部", self)
         self.global_refresh_btn.clicked.connect(self._on_global_refresh)
         title_layout.addWidget(self.global_refresh_btn)
 

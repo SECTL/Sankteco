@@ -16,9 +16,9 @@ from PySide2.QtWidgets import (
 )
 from PySide2.QtCore import Signal, QObject
 import qfluentwidgets as qfw
-from qfluentwidgets import FluentIcon as FI
 
 from ui.ui_str import SettNLUIString
+from fluent_icons import FluentIcons as FI
 
 
 class NLSignals(QObject):
@@ -65,7 +65,7 @@ class NowNamelistCard(qfw.SettingCard):
 
     def __init__(self, parent=None):
         super().__init__(
-            FI.PEOPLE,
+            FI.icon("people_list"),
             SettNLUIString.NOW_NAMELIST_CARD_TITLE,
             SettNLUIString.NOW_NAMELIST_CARD_CONTEXT,
             parent,
@@ -79,70 +79,6 @@ class NowNamelistCard(qfw.SettingCard):
         # 调整布局边距、添加控件进布局
         self.hBoxLayout.setMargin(16)
         self.hBoxLayout.addWidget(self.now_namelist_card_list)
-
-
-class NamelistSettingCard(qfw.SimpleCardWidget):
-    """名单操作 卡片, 从属于 名单 部分,
-    继承自 简单卡片组件 SimpleCardWidget,
-    引用时可作 NamelistSettCard"""
-
-    def __init__(self, parent=None):
-        super().__init__(parent)
-
-        # 初始化布局
-        self.hboxlayout = QHBoxLayout(self)
-
-        # 初始化控件
-        self.init_widgets()
-
-        # 添加控件进布局
-        self.hboxlayout.addStretch(1)
-        self.hboxlayout.addWidget(self.refresh_namelist_button)
-        self.hboxlayout.addWidget(self.add_new_namelist_button)
-        self.hboxlayout.addWidget(self.rename_namelist_button)
-        self.hboxlayout.addWidget(self.del_namelist_button)
-        self.hboxlayout.addWidget(self.import_namelist_button)
-        self.hboxlayout.addWidget(self.export_namelist_button)
-        self.hboxlayout.addStretch(1)
-
-    def init_widgets(self):
-        """初始化控件"""
-
-        # 刷新名单
-        self.refresh_namelist_button = qfw.PushButton(
-            FI.SYNC,
-            SettNLUIString.REFRESH_NAMELIST_BUTTON_TEXT,
-        )
-
-        # 新建名单
-        self.add_new_namelist_button = qfw.PushButton(
-            FI.ADD,
-            SettNLUIString.ADD_NEW_NAMELIST_BUTTON_TEXT,
-        )
-
-        # 重命名名单
-        self.rename_namelist_button = qfw.PushButton(
-            FI.PENCIL_INK,
-            SettNLUIString.RENAME_NAMELIST_BUTTON_TEXT,
-        )
-
-        # 删除名单
-        self.del_namelist_button = qfw.PushButton(
-            FI.DELETE,
-            SettNLUIString.DEL_NAMELIST_BUTTON_TEXT,
-        )
-
-        # 导入名单
-        self.import_namelist_button = qfw.PrimaryPushButton(
-            FI.SEARCH,
-            SettNLUIString.IMPORT_NAMELIST_BUTTON_TEXT,
-        )
-
-        # 导出名单
-        self.export_namelist_button = qfw.PrimaryPushButton(
-            FI.SAVE_AS,
-            SettNLUIString.EXPORT_NAMELIST_BUTTON_TEXT,
-        )
 
 
 class NamelistSettingBar(qfw.CommandBar):
@@ -161,32 +97,32 @@ class NamelistSettingBar(qfw.CommandBar):
         self.addActions(
             [
                 qfw.Action(
-                    FI.SYNC,
+                    FI.icon("arrow_sync"),
                     SettNLUIString.REFRESH_NAMELIST_BUTTON_TEXT,
                     triggered=lambda: nlsignals.refresh_namelist.emit(),
                 ),
                 qfw.Action(
-                    FI.ADD,
+                    FI.icon("people_add"),
                     SettNLUIString.ADD_NEW_NAMELIST_BUTTON_TEXT,
                     triggered=lambda: nlsignals.add_new_namelist.emit(),
                 ),
                 qfw.Action(
-                    FI.PENCIL_INK,
+                    FI.icon("rename"),
                     SettNLUIString.RENAME_NAMELIST_BUTTON_TEXT,
                     triggered=lambda: nlsignals.rename_namelist.emit(),
                 ),
                 qfw.Action(
-                    FI.DELETE,
+                    FI.icon("document_dismiss"),
                     SettNLUIString.DEL_NAMELIST_BUTTON_TEXT,
                     triggered=lambda: nlsignals.del_namelist.emit(),
                 ),
                 qfw.Action(
-                    FI.SEARCH,
+                    FI.icon("document_arrow_right"),
                     SettNLUIString.IMPORT_NAMELIST_BUTTON_TEXT,
                     triggered=lambda: nlsignals.import_namelist.emit(),
                 ),
                 qfw.Action(
-                    FI.SAVE_AS,
+                    FI.icon("document_arrow_left"),
                     SettNLUIString.EXPORT_NAMELIST_BUTTON_TEXT,
                     triggered=lambda: nlsignals.export_namelist.emit(),
                 ),
