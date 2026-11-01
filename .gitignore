@@ -10,6 +10,7 @@ dist/*
 start.build/*
 start.dist/*
 venv/*
+.venv/*
 O:/*
 plugins/*
 *.zip
