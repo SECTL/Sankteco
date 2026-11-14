@@ -34,14 +34,30 @@ jobs:
           pip install -r requirements.txt
           pip install pyinstaller
 
-      - name: Build with PyInstaller
+      # 打包独立更新器
+      - name: Build Updater
+        run: |
+          cd updater_tool
+          pyinstaller updater.spec --noconfirm
+
+      # 打包主程序
+      - name: Build Main App
         run: |
           pyinstaller start.spec --noconfirm
 
+      # 把更新器塞进主程序目录
+      - name: Merge Updater
+        run: |
+          # 拷贝 dist 目录下的 SanktecoUpdater (Linux/macOS 无后缀)
+          cp updater_tool/dist/SanktecoUpdater dist/Sankteco/
+
+      # 打包成 tar.gz
       - name: Package Artifact
         run: |
-          tar -czvf ${{ matrix.artifact_name }}.tar.gz -C dist Sankteco
+          cd dist
+          tar -czvf ../${{ matrix.artifact_name }}.tar.gz Sankteco
 
+      # 上传供下载
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
