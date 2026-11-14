@@ -13,13 +13,10 @@ jobs:
     strategy:
       matrix:
         include:
-          # Windows 的配置已移除，将在本地真机打包
-          - os: macos-latest
+          - os: macos-12
             artifact_name: Sankteco-macOS
-            exe_name: Sankteco
-          - os: ubuntu-latest
+          - os: ubuntu-20.04
             artifact_name: Sankteco-Linux
-            exe_name: Sankteco
 
     steps:
       - name: Checkout Code
