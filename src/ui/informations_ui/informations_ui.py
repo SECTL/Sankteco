@@ -116,7 +116,7 @@ class InformationUI(QFrame):
         super().__init__(parent)
 
         # 初始化标题与卡片组件
-        self.frame_title = qfw.SubtitleLabel(InfoUIString.FRAME_TITLE)
+        self.frame_title = qfw.TitleLabel(InfoUIString.FRAME_TITLE)
         self.information_board_card = InformationBoardCardGroup(self)
         self.support_card = SupportCardGroup(self)
 

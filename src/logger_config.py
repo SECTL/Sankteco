@@ -20,11 +20,11 @@ _file_sink_ids = []
 def setup_basic_logging(log_days: int = 30, err_days: int = 60):
     """基础日志配置:文件 + 控制台,参数由调用方注入"""
 
-    # 移除 Loguru 默认的 stderr sink，避免重复输出
+    # 移除 Loguru 默认的 stderr sink, 避免重复输出
     logger.remove()
     _file_sink_ids.clear()
 
-    # 控制台输出(带颜色，便于开发调试)
+    # 控制台输出(带颜色, 便于开发调试)
     logger.add(
         sys.stderr,
         level="DEBUG",
@@ -33,7 +33,7 @@ def setup_basic_logging(log_days: int = 30, err_days: int = 60):
         colorize=True,
     )
 
-    # 全量文件日志(按天轮转，保留 30 天)
+    # 全量文件日志(按天轮转, 保留 30 天)
     _file_sink_ids.append(
         logger.add(
             LOG_DIR / "core_{time:YYYY-MM-DD}.log",
@@ -48,7 +48,7 @@ def setup_basic_logging(log_days: int = 30, err_days: int = 60):
         )
     )
 
-    # 错误日志单独一份，方便排查
+    # 错误日志单独一份, 方便排查
     _file_sink_ids.append(
         logger.add(
             LOG_DIR / "error_{time:YYYY-MM-DD}.log",
@@ -73,7 +73,7 @@ def reconfigure_file_sinks(log_days: int, err_days: int):
         logger.remove(sid)
     _file_sink_ids.clear()
 
-    # 全量文件日志(按天轮转，保留 30 天)
+    # 全量文件日志(按天轮转, 保留 30 天)
     _file_sink_ids.append(
         logger.add(
             LOG_DIR / "core_{time:YYYY-MM-DD}.log",
@@ -88,7 +88,7 @@ def reconfigure_file_sinks(log_days: int, err_days: int):
         )
     )
 
-    # 错误日志单独一份，方便排查
+    # 错误日志单独一份, 方便排查
     _file_sink_ids.append(
         logger.add(
             LOG_DIR / "error_{time:YYYY-MM-DD}.log",

@@ -10,7 +10,7 @@ from PySide2.QtWidgets import (
     QVBoxLayout,
 )
 from qfluentwidgets import (
-    SubtitleLabel,
+    TitleLabel,
     ComboBoxSettingCard,
     ColorSettingCard,
     qconfig,
@@ -60,7 +60,7 @@ class SettThemeUI(QFrame):
         """初始化控件"""
 
         # 页面标题
-        self.frame_title = SubtitleLabel(SettThemeUIString.FRAME_TITLE)
+        self.frame_title = TitleLabel(SettThemeUIString.FRAME_TITLE)
 
         # 显示主题
         self.theme_card = ComboBoxSettingCard(

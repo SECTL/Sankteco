@@ -53,7 +53,7 @@ class SettNLUILogic(SettNLUI):
         # 当前名单下拉框
         now_namelist_card_list.currentIndexChanged.connect(  # type: ignore
             lambda: self.load_namelist_from_json(
-                f"{AssetsPathTXT.APP_NAMELISTS_FOLDER}{now_namelist_card_list.currentText()}"
+                f"{AssetsPathTXT.USER_NAMELISTS_PATH}{now_namelist_card_list.currentText()}"
             )
         )
 

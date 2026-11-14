@@ -65,7 +65,9 @@ class PluginStorePage(QWidget):
 
         title_layout.addStretch()
 
-        self.global_refresh_btn = PrimaryPushButton(FI.icon("arrow_sync_circle"), "刷新全部", self)
+        self.global_refresh_btn = PrimaryPushButton(
+            FI.icon("arrow_sync_circle"), "刷新全部", self
+        )
         self.global_refresh_btn.clicked.connect(self._on_global_refresh)
         title_layout.addWidget(self.global_refresh_btn)
 

@@ -1,21 +1,37 @@
-.vscode/*
-*.spec
-*.exe
+# ================= 环境与 IDE =================
+.vscode/
 *.code-workspace
-config/*
-namelists/*
-src/test/*
-build/*
-dist/*
-start.build/*
-start.dist/*
-venv/*
-O:/*
-plugins/*
-*.zip
-dev-tools/*
+venv/
+O:
 __pycache__/
 *.py[cod]
 *$py.class
-logs/*
-assets/fluent_icons/*
+
+# ================= 构建与打包产物 =================
+build/
+dist/
+start.build/
+start.dist/
+updater_tool/build/
+updater_tool/dist/
+*.exe
+*.zip
+SanktecoUpdater
+SanktecoUpdater.exe
+
+# ================= 运行时数据与缓存 =================
+_update/
+VERSION.txt
+logs/
+data/
+.tufup-repo-config
+
+# ================= TUF 仓库与部署 =================
+deploy/
+repo/targets/
+
+# ================= 其他 =================
+src/test/
+dev-tools/
+assets/fluent_icons/
+plugins/plugin_template/plugin_template.egg-info/

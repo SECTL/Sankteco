@@ -318,9 +318,7 @@ class MainWindow(FluentWindow):
                 from qfluentwidgets import NavigationItemPosition
 
                 try:
-                    icon_enum = getattr(
-                        FI, icon.upper(), FI.icon("apps")
-                    )
+                    icon_enum = getattr(FI, icon.upper(), FI.icon("apps"))
                 except:
                     icon_enum = FI.icon("apps")
 

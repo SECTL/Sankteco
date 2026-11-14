@@ -30,7 +30,7 @@ class AIENamelist:
 
         # 导出为 JSON 格式
         with open(
-            f"{AssetsPathTXT.APP_NAMELISTS_FOLDER}{namelist_id}.json",
+            f"{AssetsPathTXT.USER_NAMELISTS_PATH}{namelist_id}.json",
             "w",
             encoding="utf-8",
         ) as f:
@@ -91,7 +91,7 @@ class AIENamelist:
 
         # 保存为 Sankteco JSON
         saved_name = f"{path.stem}.json"
-        saved_path = Path(AssetsPathTXT.APP_NAMELISTS_FOLDER) / saved_name
+        saved_path = Path(AssetsPathTXT.USER_NAMELISTS_PATH) / saved_name
         with open(saved_path, "w", encoding="utf-8") as f:
             f.write(dataset.export("json"))
 

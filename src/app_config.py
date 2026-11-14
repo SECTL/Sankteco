@@ -49,6 +49,20 @@ class AppEnums:
         ZH_CN = "zh_CN"
         EO = "eo"
 
+    class UpdateChannelEnum(ValuesMixin, Enum):
+        """更新渠道枚举类"""
+
+        STABLE = "stable"
+        PRERELEASE = "prerelease"
+
+    class AutoUpdateModeEnum(ValuesMixin, Enum):
+        """自动更新模式枚举类"""
+
+        NEVER = "never"
+        NOTIFY = "notify"
+        DOWNLOAD = "download"
+        INSTALL = "install"
+
 
 class AppConfig(QConfig):
     """应用配置类"""
@@ -66,11 +80,50 @@ class AppConfig(QConfig):
 
     # 子页面:调试选项( 首选项 的子页面)配置类
     # 日志文件保留时长(天)
-    LogFileRetention = ConfigItem("Debug", "LogFileRetention", 30, IntValidator())
+    LogFileRetention = ConfigItem(
+        AppConfigString.DEBUG_GROUP,
+        AppConfigString.DEBUG_LOG_FILE_RETENTION,
+        30,
+        IntValidator(),
+    )
 
     # 错误日志文件保留时长(天)
     ErrorLogFileRetention = ConfigItem(
-        "Debug", "ErrorLogFileRetention", 60, IntValidator()
+        AppConfigString.DEBUG_GROUP,
+        AppConfigString.DEBUG_ERROR_LOG_FILE_RETENTION,
+        60,
+        IntValidator(),
+    )
+
+    # 更新选项 配置类
+    # 更新渠道
+    UpdateChannel = OptionsConfigItem(
+        AppConfigString.UPDATE_GROUP,
+        AppConfigString.UPDATE_UPDATE_CHANNEL,
+        AppEnums.UpdateChannelEnum.STABLE,
+        OptionsValidator(
+            [
+                AppEnums.UpdateChannelEnum.STABLE,
+                AppEnums.UpdateChannelEnum.PRERELEASE,
+            ]
+        ),
+        EnumSerializer(AppEnums.UpdateChannelEnum),
+    )
+
+    # 自动更新模式
+    AutoUpdateMode = OptionsConfigItem(
+        AppConfigString.UPDATE_GROUP,
+        AppConfigString.UPDATE_AUTO_UPDATE_MODE,
+        AppEnums.AutoUpdateModeEnum.NOTIFY,
+        OptionsValidator(
+            [
+                AppEnums.AutoUpdateModeEnum.NEVER,
+                AppEnums.AutoUpdateModeEnum.NOTIFY,
+                AppEnums.AutoUpdateModeEnum.DOWNLOAD,
+                AppEnums.AutoUpdateModeEnum.INSTALL,
+            ]
+        ),
+        EnumSerializer(AppEnums.AutoUpdateModeEnum),
     )
 
 

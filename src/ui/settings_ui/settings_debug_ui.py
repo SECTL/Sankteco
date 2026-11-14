@@ -14,7 +14,7 @@ from PySide2.QtCore import Qt
 from PySide2.QtGui import QIcon
 from qfluentwidgets import (
     qconfig,
-    SubtitleLabel,
+    TitleLabel,
     TextEdit,
     LineEdit,
     SettingCardGroup,
@@ -34,7 +34,7 @@ def set_widget_to_layout(wlist: list, layout: QLayout):
 
 
 class IntSettingCard(SettingCard):
-    """带单行输入框的设置卡，绑定到整数类型的 ConfigItem"""
+    """带单行输入框的设置卡, 绑定到整数类型的 ConfigItem"""
 
     def __init__(self, configItem, icon: QIcon, title: str, content=None, parent=None):
         super().__init__(icon, title, content, parent)
@@ -72,7 +72,7 @@ class IntSettingCard(SettingCard):
             try:
                 qconfig.set(self.configItem, int(text))
             except ValueError:
-                pass  # 非法输入暂不写回，由 validator 在保存时修正
+                pass  # 非法输入暂不写回, 由 validator 在保存时修正
 
 
 class SettDebugUI(QFrame):
@@ -123,7 +123,7 @@ class SettDebugUI(QFrame):
         """初始化控件"""
 
         # 页面标题
-        self.frame_title = SubtitleLabel(SettDebugUIString.FRAME_TITLE)
+        self.frame_title = TitleLabel(SettDebugUIString.FRAME_TITLE)
 
         # 日志实时窗口
         self.log_display = TextEdit()

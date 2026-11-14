@@ -55,6 +55,14 @@ class SettWindow(FluentWindow):
         self.language_ui = SettLangUI(self.cfg, self)
         self.language_ui.setObjectName(SettWindowString.LANGUAGE_UI_OBJNAME)
 
+    async def import_update_ui(self) -> None:
+        """导入并重命名 更新 子页面的协程"""
+
+        from ui.settings_ui.settings_update_ui_logic import SettUpdateUILogic
+
+        self.update_ui = SettUpdateUILogic(self.cfg, self)
+        self.update_ui.setObjectName("update_ui")
+
     async def import_debug_ui(self) -> None:
         """导入并重命名 调试 子页面的协程"""
         from ui.settings_ui.settings_debug_ui import SettDebugUI
@@ -68,6 +76,7 @@ class SettWindow(FluentWindow):
             self.import_namelists_ui(),
             self.import_theme_ui(),
             self.import_language_ui(),
+            self.import_update_ui(),
             self.import_debug_ui(),
         )
 
@@ -98,6 +107,14 @@ class SettWindow(FluentWindow):
             self.language_ui,
             FI.icon("local_language"),
             SettWindowString.LANGUAGE_UI_NAVNAME,
+            NavigationItemPosition.TOP,
+        )
+
+        # 更新
+        self.addSubInterface(
+            self.update_ui,
+            FI.icon("cube_sync"),
+            "Sankteco 更新",
             NavigationItemPosition.TOP,
         )
 

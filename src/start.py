@@ -11,12 +11,21 @@ from loguru import logger
 from qfluentwidgets import qconfig
 
 from ui.main_ui import MainWindow
+from update.manager import read_current_version, write_current_version
 from app_config import cfg
-from app_const_var import AssetsPathTXT
+from app_const_var import AssetsPathTXT, AssetsPath
+from update import check_pending_on_startup
 
+
+# 检查未完成的更新
+check_pending_on_startup()
+
+# 确保版本文件存在（首次启动时写入默认版本）
+if not AssetsPath.VER_FILE.exists():
+    write_current_version(read_current_version())
 
 # 加载配置
-qconfig.load(AssetsPathTXT.APP_CONFIG, cfg)
+qconfig.load(AssetsPathTXT.USER_CONFIG, cfg)
 
 # 用配置的值初始化日志
 logger_config.setup_basic_logging(

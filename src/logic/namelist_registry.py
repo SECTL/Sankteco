@@ -31,7 +31,7 @@ class NamelistRegistry(QObject):
     def scan(self) -> List[str]:
         """扫描名单文件夹,更新内部列表并发出信号"""
 
-        folder = Path(AssetsPathTXT.APP_NAMELISTS_FOLDER)
+        folder = Path(AssetsPathTXT.USER_NAMELISTS_PATH)
 
         self._namelists = sorted(p.name for p in folder.glob("*.json"))
         self.namelists_changed.emit(self._namelists)
@@ -51,7 +51,7 @@ class NamelistRegistry(QObject):
 
         if self._current is None:
             return None
-        return f"{AssetsPathTXT.APP_NAMELISTS_FOLDER}{self._current}"
+        return f"{AssetsPathTXT.USER_NAMELISTS_PATH}{self._current}"
 
     # ---------- 设置 ----------
     def set_current(self, name: str):

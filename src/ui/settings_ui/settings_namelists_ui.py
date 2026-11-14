@@ -43,7 +43,7 @@ class AskNewNamelistID(qfw.MessageBoxBase):
         super().__init__(parent)
 
         # 标题
-        self.title_label = qfw.SubtitleLabel(SettNLUIString.ASK_NEW_ID_MSG_TITLE, self)
+        self.title_label = qfw.TitleLabel(SettNLUIString.ASK_NEW_ID_MSG_TITLE, self)
 
         # 输入框
         self.input_lineedit = qfw.LineEdit(self)
@@ -237,12 +237,13 @@ class SettNLUI(QFrame):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        # 初始化垂直布局
+        # 初始化布局
         self.vboxlayout = QVBoxLayout(self)
         self.vboxlayout.setMargin(32)
+        self.setLayout(self.vboxlayout)
 
         # 初始化各控件
-        self.frame_title = qfw.SubtitleLabel(SettNLUIString.FRAME_TITLE)
+        self.frame_title = qfw.TitleLabel(SettNLUIString.FRAME_TITLE)
         self.now_namelist_card = NowNamelistCard(self)
         self.namelist_setting_card = NamelistSettingBar(self)
         self.name_table_widget = NameTableWidget(self)
@@ -252,4 +253,3 @@ class SettNLUI(QFrame):
         self.vboxlayout.addWidget(self.now_namelist_card)
         self.vboxlayout.addWidget(self.namelist_setting_card)
         self.vboxlayout.addWidget(self.name_table_widget)
-        self.setLayout(self.vboxlayout)

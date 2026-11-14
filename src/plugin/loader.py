@@ -35,10 +35,10 @@ class PluginLoader:
     def __init__(self, namespace: str = "sankteco.plugin"):
         """
         初始化加载器
-        
+
         :param namespace: Stevedore 命名空间
         """
-        
+
         self.namespace = namespace
         # 存储所有插件信息:{ plugin_id: { register, meta, module, enabled, is_local, _plugin_dir } }
         self._plugins: Dict[str, Dict[str, Any]] = {}
@@ -49,7 +49,7 @@ class PluginLoader:
 
     def _get_data_dir(self) -> Path:
         """获取用户数据目录(跨平台)"""
-        
+
         data_dir = QStandardPaths.writableLocation(QStandardPaths.AppDataLocation)  # type: ignore
         plugin_data_dir = Path(data_dir) / "plugins" / "data"
         plugin_data_dir.mkdir(parents=True, exist_ok=True)
@@ -58,12 +58,12 @@ class PluginLoader:
 
     def _get_plugins_dir(self) -> Path:
         """获取本地插件目录"""
-        
+
         return self._local_plugins_dir
 
     def get_plugin_data_dir(self, plugin_id: str) -> Path:
         """获取指定插件的私有数据目录"""
-        
+
         plugin_data_dir = self._data_dir / plugin_id
         plugin_data_dir.mkdir(parents=True, exist_ok=True)
         return plugin_data_dir

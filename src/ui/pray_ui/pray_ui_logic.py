@@ -190,7 +190,7 @@ class PrayUILogic(PrayUI):
         if not name:
             return []
 
-        path = str(Path(AssetsPathTXT.APP_NAMELISTS_FOLDER) / name)
+        path = str(Path(AssetsPathTXT.USER_NAMELISTS_PATH) / name)
         dataset, _ = AIENamelist.import_namelist(path)
         if dataset is None:
             return []

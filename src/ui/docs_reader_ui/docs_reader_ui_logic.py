@@ -48,7 +48,7 @@ class DocsRUILogic(DocsRUI):
             now_doc_id = now_doc_list.itemData(index)
 
             # 读取配置
-            config_path = os.path.join(os.getcwd(), "config", "app_config.json")
+            config_path = os.path.join(os.getcwd(), AssetsPathTXT.USER_CONFIG)
 
             with open(config_path, "r", encoding="utf-8") as f:
                 json_data = json.load(f)

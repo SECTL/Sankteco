@@ -9,7 +9,7 @@ from PySide2.QtWidgets import (
     QLayout,
 )
 from qfluentwidgets import (
-    SubtitleLabel,
+    TitleLabel,
     ComboBoxSettingCard,
     HyperlinkCard,
 )
@@ -61,7 +61,7 @@ class SettLangUI(QFrame):
         """初始化控件"""
 
         # 页面标题
-        self.frame_title = SubtitleLabel(SettLangUIString.FRAME_TITLE)
+        self.frame_title = TitleLabel(SettLangUIString.FRAME_TITLE)
 
         # 语言选择
         self.screen_language = ComboBoxSettingCard(

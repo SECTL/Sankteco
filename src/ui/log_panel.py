@@ -27,7 +27,7 @@ class QtLogSink:
 
     def write(self, message: str):
 
-        # 由 Loguru 调用，可能处于任意线程；通过信号切到 UI 线程
+        # 由 Loguru 调用, 可能处于任意线程；通过信号切到 UI 线程
         self.emitter.log_signal.emit(message.rstrip())
 
     @Slot(str)
@@ -46,7 +46,7 @@ class QtLogSink:
             return
 
     def attach(self, level="DEBUG"):
-        """把本 sink 注册到 Loguru，并记录 sink_id 以便后续移除"""
+        """把本 sink 注册到 Loguru, 并记录 sink_id 以便后续移除"""
 
         self._sink_id = logger.add(
             self.write,
@@ -56,7 +56,7 @@ class QtLogSink:
         )
 
     def detach(self):
-        """窗口关闭时可调用，避免悬挂引用"""
+        """窗口关闭时可调用, 避免悬挂引用"""
 
         # 移除 Loguru sink(不再有新消息进来)
         if self._sink_id is not None:

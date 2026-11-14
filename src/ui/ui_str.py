@@ -4,10 +4,10 @@ UI字符串文件
 """
 
 import gettext, json
-from app_const_var import AssetsPathTXT, LogicFilesString
+from app_const_var import AssetsPathTXT, LogicFilesString, BasicInfo
 
 # 读取配置文件以获取语言配置
-with open(AssetsPathTXT.APP_CONFIG, "r", encoding="utf-8") as f:
+with open(AssetsPathTXT.USER_CONFIG, "r", encoding="utf-8") as f:
     json_data = json.load(f)
     language_config = json_data[LogicFilesString.LANG_JSON_1][
         LogicFilesString.LANG_JSON_2
@@ -31,7 +31,7 @@ class BasicString:
     APP_NAME = "Sankteco"
     APP_PLATFORM = "Python"
     APP_GENERATION = "GEN" + " " + str("Dev")
-    APP_VERSION = "VER" + " " + str("Dev")
+    APP_VERSION = "VER" + " " + BasicInfo.APP_VER
     APP_VERSION_TYPE = "Dev"
     APP_COPYTYPE = "Copyleft, GPL-3.0, SECTL, 2023~2026."
 
