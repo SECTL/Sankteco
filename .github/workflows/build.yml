@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: macos-15
+          - os: macos-15-intel
             artifact_name: Sankteco-macOS
           - os: ubuntu-22.04
             artifact_name: Sankteco-Linux
